@@ -70,12 +70,12 @@ function App(props) {
         <div className={`${toggleSearchBar ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
         <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
           <div className='results_search'>
-            <h5 className='title_button_close_searchbar'>Résultat de la recherche du film :          
+            <h5 className='title_button_close_searchbar'>Résultat de la recherche        
               <button className='button_close_results_searchbar' onClick={handleClickSearchClose}>Close</button>
             </h5>
             <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
             {movies.movies.map((m, i) => (
-                  <div className='card_movie_container d-flex justify-content-start' key={i}>
+                  <div className='card_movie_container ' key={i}>
 
 
                       <div className="image ">
@@ -92,7 +92,6 @@ function App(props) {
           
             ))}
             </div>
-            <p>Tintin et les Picaros</p>
           </div> 
 
         </div> 

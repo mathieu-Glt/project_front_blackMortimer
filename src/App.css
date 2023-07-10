@@ -85,26 +85,39 @@
 .result_serach_movie {
   background: rgb(251, 255, 0);
   width: 100vw;
-  display: flex; 
-  flex-direction: row;
+  display:  flex;
+  flex-wrap: wrap;
+  justify-content: center;
   transition: all 1.5s ease;
 
+}
+
+.card_movie_container {
+  display:  flex;
+  flex-wrap: wrap;
+  width: 300px;
 }
 
 .button_close_results_searchbar {
   background: rgb(255, 0, 0);
   color: black;
   width: 100px;
+  display: inline-block;
   border: none;
   border-radius: 5px;
-  margin-left: 1130px;
-  justify-content: end;
+  margin-left: 1500px;
+  margin-bottom: 20px;
   transition: all 1.5s ease;
 }
 
 .title_button_close_searchbar {
-  display: flex; 
-
+ text-align: center;
+ background: rgb(255, 98, 0);
+ width: 90vw;
+ margin: auto;
+ border-radius: 10px;
+ margin-top: 10px;
+ color: black;
 }
 
 .close_serach_movie_transparent {

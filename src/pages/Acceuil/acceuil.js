@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { loadMovies } from '../../actions/movie/movieAction';
 
+
 const Acceuil = (props) => {
     console.log("Les props de acceuil : ", props.movies.movies);
     // const data = props.movies.movies;

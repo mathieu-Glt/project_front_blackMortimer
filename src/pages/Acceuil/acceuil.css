@@ -76,7 +76,7 @@
     .card_movie_container{
         padding: 4px;
         background: black;
-        width: 400px;
+        width: 500px;
         border-radius: 30px;
         border: 1px solid rgb(14, 6, 6);
         font-family: cursive;
@@ -159,7 +159,6 @@
         background: rgb(5, 42, 145);
         color: rgb(0, 0, 0);
         font-family: cursive;
-        width: 30%;
         border-radius: 10px;
         border: 2px solid rgb(14, 6, 6);
         margin: 10px;

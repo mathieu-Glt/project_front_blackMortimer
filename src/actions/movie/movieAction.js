@@ -1,11 +1,16 @@
+import { useApi }  from "../../services/AxiosInstance/useApi";
 import requests from "../../services/api/request";
 import { LOAD_MOVIES, LOAD_MOVIES_FAVORIES, LOAD_ONE_MOVIE_BY_ID, LOAD_MOVIES_RANDOM, LOAD_MOVIES_SEARCH_BY_QUERY } from "./actions-types";
-import axios from 'axios';
+// import axios from 'axios';
+
 
 
 export const loadMovies = () => {
+    
     return function (dispatch) {
-        axios.get(requests.fetchAllTintinDatabaseNotUser, {
+        const api = useApi();
+
+        api.get(requests.fetchAllTintinDatabaseNotUser, {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': '*'
@@ -25,7 +30,9 @@ export const loadMovies = () => {
 
 export const loadOneMovieById = (id) => {
     return function (dispatch) {
-        axios.get(requests.fetchMovieById + id)
+        const api = useApi();
+
+        api.get(requests.fetchMovieById + id)
             .then((response) => {
                 console.log(response);
                 dispatch({
@@ -40,8 +47,10 @@ export const loadOneMovieById = (id) => {
 
 export const loadMoviesBySearch = (searchMovie) => {
     return function (dispatch) {
+        const api = useApi();
+
         console.log(searchMovie);
-        axios.get(requests.fetchMovieBySearch + searchMovie, {
+        api.get(requests.fetchMovieBySearch + searchMovie, {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': '*'
@@ -64,7 +73,9 @@ export const loadMoviesBySearch = (searchMovie) => {
 
 export const loadMoviesFavories = () => {
     return function (dispatch) {
-        axios.get(requests.fetchFavoriesMovie)
+        const api = useApi();
+
+        api.get(requests.fetchFavoriesMovie)
             .then((response) => {
                 console.log(response);
                 dispatch({
@@ -78,7 +89,9 @@ export const loadMoviesFavories = () => {
 
 export const loadMoviesRandom = () => {
     return function (dispatch) {
-        axios.get(requests.fetchMovieRandom)
+        const api = useApi();
+
+        api.get(requests.fetchMovieRandom)
             .then((response) => {
                 console.log(response.data);
                 dispatch({
