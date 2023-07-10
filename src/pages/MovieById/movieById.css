@@ -1,0 +1,20 @@
+.card_movie_container{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    background: rgb(12, 47, 145);
+    color: rgb(0, 0, 0);
+    font-family: cursive;
+    width: 30%;
+    border-radius: 10px;
+    border: 2px solid rgb(14, 6, 6);
+    margin: 10px;
+}
+
+
+.card_button_acceuil_edit{
+    background: rgb(255, 191, 0);
+    color: black;
+    padding: 1%;
+}
+

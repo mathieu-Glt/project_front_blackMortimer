@@ -1,0 +1,58 @@
+.search_transparent {
+    position: relative;
+    top: 20px;
+    right: 150px;
+    width: 400px;
+    display: flex; 
+    flex-direction: row;
+    /* margin-right: 2%; */
+    transition: all 1.5s ease;
+    opacity: 0;
+
+}
+
+.search_form {
+    display: flex; 
+    flex-direction: row;
+    position: relative;
+    top: 20px;
+    right: 150px;
+    transition: all 1.5s ease;
+    opacity: 1;
+    width: 400px;
+}
+
+.searchbar_icon {
+    position: relative;
+    top: 10px;
+    right: 150px;
+    cursor: pointer;
+
+}
+
+
+.button_submit {
+    position: relative;
+    top: -10px;
+    /* right: 150px; */
+    border-radius: 10px;
+    width: 100px;
+    margin: 3%;
+}
+
+.button_submit_transparent {
+    position: relative;
+    top: 50px;
+    left: -190px;
+    transition: all 1.5s ease;
+    opacity: 0;
+    width: 100px;
+    padding: 2px;
+}
+
+.form_search_navigation {
+    display: flex; 
+    flex-direction: row;
+}
+
+
