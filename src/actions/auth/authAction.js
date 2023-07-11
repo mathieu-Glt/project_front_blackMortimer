@@ -34,7 +34,7 @@ export const login = (body) => {
                         'refresh_token': response.data.refresh_token
                     }
                 })
-                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('access_token', response.data.token);
                 localStorage.setItem('refresh_token', response.data.refresh_token);
 
             }

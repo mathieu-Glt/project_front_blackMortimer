@@ -73,6 +73,14 @@
         margin: 0 auto;
     }
 
+    .title_page_acceuil {
+        text-align: center;
+        background: rgb(0, 149, 255);
+        margin: 0;
+        padding: 3px;
+    }
+    
+
     .card_movie_container{
         padding: 4px;
         background: black;

@@ -1,9 +1,21 @@
 import axios from 'axios';
+import jwt_decode from "jwt-decode";
 export const api_url = process.env.REACT_APP_API_URL
 
 export function useApi() {
     // console.log(api_url);
-    // const token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token'))
+    const token = localStorage.getItem('access_token');
+    try {
+        const decodedToken = jwt_decode(token);
+        console.log("🚀 ~ file: useApi.js:11 ~ useApi ~ decodedToken:", decodedToken)
+        const roleUser = decodedToken.roles
+        
+    } catch (error) {
+        console.log("🚀 ~ file: useApi.js:14 ~ useApi ~ error:", error.message)
+        window.location.href = "/login"
+
+        
+    }
 
     const api = axios.create({
         baseURL: api_url,
@@ -40,14 +52,32 @@ export function useApi() {
             if (!originalRequest._retry) {
                 originalRequest._retry = true;
                 const refreshToken = localStorage.getItem('refresh_token')
+                
                 console.log("🚀 ~ file: useApi.js:43 ~ api.interceptors.response.use ~ refreshToken:", refreshToken)
                 if(refreshToken) {
+                    console.log("🚀 ~ file: useApi.js:56 ~ api.interceptors.response.use ~ refreshToken:", refreshToken)
                     console.log('Bonjour le nouveau token');
+                    const body = {
+                        'refresh_token' : refreshToken
+                    }
+                    console.log("🚀 ~ file: useApi.js:62 ~ api.interceptors.response.use ~ body:", body)
+                    const response = await axios.post(`${api_url}/token/refresh`, body)
+                    console.log("🚀 ~ file: useApi.js:65 ~ refreshToken ~ response:", response.data)
+                    localStorage.setItem('access_token', response.data.token)
+                    localStorage.setItem('refresh_token', response.data.refresh_token)
+                    
+                    console.log("🚀 ~ file: useApi.js:51 ~ api.interceptors.response.use ~ originalRequest:", originalRequest.headers['Authorization'])
+                    originalRequest.headers['Authorization'] = 'Bearer ' + response.data.token;
+                    return axios(originalRequest);
                 } else {
                     console.log('Pas de nouveau token');
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+                    window.location.href = "/login"
                 }
             }
         }
+        return Promise.reject(error)
     })
 
     return api;

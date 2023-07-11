@@ -44,7 +44,7 @@ const Author = (props) => {
 console.log('voici les props des auteurs : ', authors);
     return (
         <div>
-            <h2>Tous les auteurs</h2>
+            <h2 className='title_page_author'>Tous les auteurs</h2>
             <section className='card_author d-flex flex-row flex-wrap justify-content-center p-4 pt-4'>
                 {console.log("Les datas des movies : ", authors.authors)}
                 {/* {console.log("Les syno des movies : ", props.movies.movies[0].synopsis)}; */}

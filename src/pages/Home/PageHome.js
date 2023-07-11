@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { loadMovies, loadMoviesFavories, loadMoviesRandom, loadOneMovieById } from '../../actions/movie/movieAction';
 import Carousel from 'react-bootstrap/Carousel';
 import Slider from "../../components/Caroussel/carrousel";
+import './pagehome.css'
 
 
 const Home = (props) => {
@@ -13,7 +14,7 @@ const Home = (props) => {
     
     return (
         <>
-        <h2>Page Home</h2>
+        <h2  class='title_page'>Page Home</h2>
 
         <Slider/>
 

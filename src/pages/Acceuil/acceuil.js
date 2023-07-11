@@ -6,6 +6,7 @@ import { loadMovies } from '../../actions/movie/movieAction';
 
 
 const Acceuil = (props) => {
+    console.log("🚀 ~ file: acceuil.js:9 ~ Acceuil ~ props:", props)
     console.log("Les props de acceuil : ", props.movies.movies);
     // const data = props.movies.movies;
     const { movies } = props;
@@ -40,7 +41,7 @@ const Acceuil = (props) => {
 
     return (
         <div>
-            <h2>Tous les films</h2>
+            <h2 className="title_page_acceuil">Page Acceuil</h2>
             <section className='card_movie d-flex flex-row flex-wrap justify-content-center p-4 pt-4'>
                 {console.log("Les datas des movies : ", movies.movies)}
                 {/* {console.log("Les syno des movies : ", props.movies.movies[0].synopsis)}; */}

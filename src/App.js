@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Acceuil from './pages/Acceuil/acceuil';
 import Navigation from './components/Nav/nav';
@@ -14,16 +14,27 @@ import SearchBar from './components/SearchBar/searchBar';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { loadMoviesBySearch } from './actions/movie/movieAction';
+import axios from 'axios';
+import requests from './services/api/request';
+import { ThemeContext } from './context';
+import Footer from './components/Footer/footer';
+import React, {createContext } from 'react';
+export const DataContext= createContext()
+
+
 
 function App(props) {
     console.log("🚀 ~ file: App.js:19 ~ App ~ props:", props)
-    const { movies } = props;
-
+    
+    // recuperation du store movies 
+    // const { movies } = props;
 
     // booleen pour la gestion de l'affichage du résultat de la barre de recherche
     const [toggleSearchBar, setToggleSearchBar] = useState(false);
+    const [toggleSearch, setToggleSearch] = useState(false);
     const [toggleData, setTogleData] = useState(false);
     const [resutSearchMovie, setResultSearchMovie] = useState('');
+    const [movies, setMovies] = useState([]);
 
 
     // fonction soumission formulaire se trouvant dans App
@@ -32,14 +43,23 @@ function App(props) {
       console.log("🚀 ~ file: App.js:20 ~ handleSubmitSearchForm ~ searchMovie:", searchMovie)
       e.preventDefault();
       // setCloseSearchBar(true)
-
       //TODO: creee requête axios ici de recherche film
-      props.loadMoviesBySearch(searchMovie);
+      // props.loadMoviesBySearch(searchMovie);
+      axios.get(requests.fetchMovieBySearch + searchMovie, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': '*'
+      }})
+      .then((response) => {
+        console.log('Les films de la recherche : ', response.data.results);
+        setMovies(response.data.results)
+      })
+      .catch(err => console.log(err))
+
       setTimeout(() => {
         setResultSearchMovie(movies);
         setTogleData(!toggleData);
       }, 1000)
-
 
       setTimeout(() => {
         // setData(data)
@@ -54,6 +74,9 @@ function App(props) {
     const handleClickSearchClose = (e) => {
       e.preventDefault();
       setToggleSearchBar(!toggleSearchBar);
+      // on redirige vers l'acceuil
+      // windows.location.href("/")
+
 
 
     }
@@ -66,15 +89,15 @@ function App(props) {
     <>
       <div className="App">
         <Router>
-        <Navigation handleSubmitSearchForm={handleSubmitSearchForm}/>
-        <div className={`${toggleSearchBar ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
+          <Navigation handleSubmitSearchForm={handleSubmitSearchForm}/>
+       <div className={`${toggleSearchBar ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
         <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
           <div className='results_search'>
             <h5 className='title_button_close_searchbar'>Résultat de la recherche        
               <button className='button_close_results_searchbar' onClick={handleClickSearchClose}>Close</button>
             </h5>
             <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
-            {movies.movies.map((m, i) => (
+            {movies.map((m, i) => (
                   <div className='card_movie_container ' key={i}>
 
 
@@ -111,6 +134,7 @@ function App(props) {
             <Route path="/login" element={<Login />} />
           </Routes>
           </Router>
+          <Footer/>
       </div>
     </>
   );

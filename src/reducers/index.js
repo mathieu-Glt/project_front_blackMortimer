@@ -5,7 +5,6 @@ import userReducer from "./userReducer";
 import characterReducer from "./characterReducer";
 import authorReducer from "./authorReducer";
 
-
 const rootReducers = combineReducers({
     movies: movieReducer,
     auth: authReducer,

@@ -1,0 +1,52 @@
+.search_form_author {
+    display: flex; 
+    flex-direction: column;
+    position: relative;
+    top: 20px;
+    right: 750px;
+    transition: all 1.5s ease;
+    opacity: 1;
+    width: 300px;
+}
+
+.search_transparent_author {
+    display: flex; 
+    flex-direction: column;
+    position: relative;
+    top: 20px;
+    right: 750px;
+    width: 300px;
+    /* margin-right: 2%; */
+    transition: all 1.5s ease;
+    opacity: 0;
+
+}
+
+.searchIcon_author {
+    position: relative;
+    top: 5px;
+    right: 760px;
+    cursor: pointer;
+    border:  none;
+    border-radius: 5px;
+    transition: all 1.5s ease;
+
+
+
+}
+.searchIcon_author:hover {
+    background: rgb(91, 91, 91);
+    transition: all 1.5s ease;
+}
+
+
+.button_submit_author {
+    position: relative;
+    top: -40px;
+    right: -190px;
+    border-radius: 10px;
+    width: 100px;
+    margin: 1%;
+}
+
+

@@ -9,6 +9,8 @@ export const loadMovies = () => {
     
     return function (dispatch) {
         const api = useApi();
+        // console.log("🚀 ~ file: movieAction.js:93 ~ api:", api)
+
 
         api.get(requests.fetchAllTintinDatabaseNotUser, {
             headers: {

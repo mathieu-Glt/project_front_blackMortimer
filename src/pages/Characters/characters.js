@@ -42,7 +42,7 @@ const Character = (props) => {
 console.log('voici les props de characters : ', characters);
     return (
         <div>
-            <h2>Tous les personnages</h2>
+            <h2 className='title_page_character'>Page personnage des séries</h2>
             <section className='card_character d-flex flex-row flex-wrap justify-content-center p-4 pt-4'>
                 {/* {console.log("Les datas des movies : ", movies.movies)} */}
                 {/* {console.log("Les syno des movies : ", props.movies.movies[0].synopsis)}; */}

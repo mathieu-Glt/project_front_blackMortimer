@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { loadMoviesFavories } from "../../actions/movie/movieAction";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import './pagefavories.css'
 
 
 const Favories = (props) => {
@@ -17,7 +18,8 @@ const Favories = (props) => {
 
     return (
         <div>
-            <h2>Tous mes films favoris</h2>
+            <>
+            <h2 className="title_page_favories">Page des favoris</h2>
             <section className='card_movie d-flex flex-row flex-wrap justify-content-center p-4 pt-4'>
                 {console.log("Les datas des movies : ", data)}
                 {data.map((m, i) => (
@@ -41,6 +43,7 @@ const Favories = (props) => {
                 ))}
 
             </section>
+            </>
         </div>
     )
 }

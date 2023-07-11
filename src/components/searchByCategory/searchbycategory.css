@@ -1,0 +1,53 @@
+.search_form_category{
+    display: flex; 
+    flex-direction: column;
+    position: relative;
+    top: 20px;
+    right: 450px;
+    transition: all 1.5s ease;
+    opacity: 1;
+    width: 300px;
+}
+
+.search_transparent_category {
+    display: flex; 
+    flex-direction: column;
+    position: relative;
+    top: 20px;
+    right: 470px;
+    width: 300px;
+    /* margin-right: 2%; */
+    transition: all 1.5s ease;
+    opacity: 0;
+
+}
+
+.searchIcon_category {
+    position: relative;
+    top: 5px;
+    right: 500px;
+    cursor: pointer;
+    border:  none;
+    border-radius: 5px;
+    background: rgb(93, 93, 93);
+    transition: all 1.5s ease;
+
+}
+
+
+.searchIcon_category:hover {
+    background: rgb(0, 0, 0);
+    transition: all 1.5s ease;
+}
+
+
+.button_submit_category {
+    position: relative;
+    top: -40px;
+    right: -220px;
+    border-radius: 10px;
+    width: 100px;
+    margin: 1%;
+}
+
+

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { loadMovies } from '../../actions/movie/movieAction';
 import { loadCharacters } from '../../actions/character/characterActions';
+import { useContext } from 'react';
 
 
 const SearchBar = (props) => {
@@ -42,7 +43,7 @@ console.log(searchMovie);
 
     return (
         <>
-        <SearchIcon className='searchbar_icon' onClick={searchClick}/>
+        <SearchIcon color="primary" className='searchbar_icon' onClick={searchClick}/>
         <Form 
         onSubmit={handleSubmit}
         className={`${toggleSearch ? 'search_form' : 'search_transparent'}`}
@@ -72,19 +73,21 @@ console.log(searchMovie);
     
 }
 
+export default SearchBar;
 
-const mapStateToProps = store => {
-    console.log({ store });
-    return {
-        movies: store.movies,
-        characters: store.characters,
-        auth: store.auth,
-        user: store.user
-    }
-}
 
-const mapDispatchToProps = {
-    loadMovies, loadCharacters
-}
+// const mapStateToProps = store => {
+//     console.log({ store });
+//     return {
+//         movies: store.movies,
+//         characters: store.characters,
+//         auth: store.auth,
+//         user: store.user
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+// const mapDispatchToProps = {
+//     loadMovies, loadCharacters
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
