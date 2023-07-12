@@ -11,13 +11,14 @@ import Login from './pages/Login';
 import Characters from './pages/Characters/characters';
 import Author from './pages/Author/author';
 import SearchBar from './components/SearchBar/searchBar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { loadMoviesBySearch } from './actions/movie/movieAction';
 import axios from 'axios';
 import requests from './services/api/request';
 import { ThemeContext } from './context';
 import Footer from './components/Footer/footer';
+import { useContext } from 'react'
 import React, {createContext } from 'react';
 export const DataContext= createContext()
 
@@ -25,6 +26,12 @@ export const DataContext= createContext()
 
 function App(props) {
     console.log("🚀 ~ file: App.js:19 ~ App ~ props:", props)
+    const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
+    console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
+    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
+    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
+
+
     
     // recuperation du store movies 
     // const { movies } = props;
@@ -33,9 +40,22 @@ function App(props) {
     const [toggleSearchBar, setToggleSearchBar] = useState(false);
     const [toggleSearch, setToggleSearch] = useState(false);
     const [toggleData, setTogleData] = useState(false);
+    // const [toggleThemeApp, setToggleThemeApp] = useState(false);
     const [resutSearchMovie, setResultSearchMovie] = useState('');
     const [movies, setMovies] = useState([]);
+    
+    // useEffect(()=>{
+    //   if (theme === 'light') {
+    //     setToggleThemeApp(!toggleThemeApp)
+    //   } else {
+    //     setToggleThemeApp(false)
+    //   }
+  
+    // }, [theme])
 
+    // console.log("🚀 ~ file: App.js:43 ~ App ~ toggleThemeApp:", toggleThemeApp)
+
+  
 
     // fonction soumission formulaire se trouvant dans App
     const handleSubmitSearchForm = (e, searchMovie) => {
@@ -87,7 +107,7 @@ function App(props) {
 
   return (
     <>
-      <div className="App">
+      <div className='App'>
         <Router>
           <Navigation handleSubmitSearchForm={handleSubmitSearchForm}/>
        <div className={`${toggleSearchBar ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
@@ -122,6 +142,19 @@ function App(props) {
 
 
 
+        {/* <Routes>
+            <Route path="/" element={<Home theme={toggleThemeApp}/>} />
+            <Route path="/acceuil" element={<Acceuil theme={toggleThemeApp}/>} />
+            <Route path="/characters" element={<Characters theme={toggleThemeApp}/>} />
+            <Route path="/authors" element={<Author theme={toggleThemeApp}/>} />
+            <Route path="/favories" element={<Favories theme={toggleThemeApp}/>} />
+            <Route path="/editmovie/:id" element={<EditMovie theme={toggleThemeApp}/>} />
+            <Route path="/movie/:id" element={<MovieId />} />
+            <Route path="/register" element={<Register theme={toggleThemeApp}/>} />
+            <Route path="/login" element={<Login theme={toggleThemeApp}/>} />
+          </Routes>
+          </Router>
+          <Footer/> */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/acceuil" element={<Acceuil />} />

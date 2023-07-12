@@ -46,6 +46,7 @@ function Slider(props) {
 
     
     console.log("🚀 ~ file: carrousel.js:15 ~ Slider ~ movies:", movies)
+    // <section className={`${props.theme ? 'card_movie_light' : 'card_movie_dark'}`}>
 
     return (
 
@@ -59,7 +60,7 @@ function Slider(props) {
             showArrows={true}
         >
             {movies.movies.map((m, i) => (
-            <div className="card_container" key={i}>
+            <div className={`${props.theme ? 'card_movie_light' : 'card_movie_dark'}`} key={i}>
             <div className="card_bootstrap" style={{ width: '30rem', margin: 'auto' }}>
                 <div
                 className="card_bootstrap_img"

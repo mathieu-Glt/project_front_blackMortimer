@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useContext } from 'react'
 import { ThemeContext } from '../../context'
+import Button from 'react-bootstrap/Button';
 
 
 
@@ -11,30 +12,31 @@ const FooterContainer = styled.footer`
     justify-content: center;
     padding-top: 60px;
 `
-  
+
 const NightModeButton = styled.button`
     background-color: transparent;
     border: none;
     cursor: pointer;
     color: red;
 `
- 
+
 function Footer(props) {
-console.log("🚀 ~ file: footer.js:23 ~ Footer ~ props:", props)
+    console.log("🚀 ~ file: footer.js:23 ~ Footer ~ props:", props)
 
-    const { theme } = useContext(ThemeContext)
-    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
+    const { theme, toggleTheme } = useContext(ThemeContext)
+    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme, toggleTheme)
 
-    
+
     return (
         <>
-        <h1>Footer</h1>
-        
+            <h1>Footer</h1>
+
+
+            <div >
+                <Button onClick={() => toggleTheme()}>Changer de mode : {theme === 'light' ? '☀️' : '🌙'}</Button>
+            </div>
         </>
-        // <FooterContainer >
-        //     <NightModeButton>Changer de mode</NightModeButton>
-        // </FooterContainer>
     )
 }
- 
+
 export default Footer

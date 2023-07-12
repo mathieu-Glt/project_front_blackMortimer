@@ -12,6 +12,7 @@ const requests = {
     fetchMovieRandom: `${api_url}/api/movies/random`,
     login: `${api_url}/api/login_check`,
     register: `${api_url}/api/register`
+
 }
 
 export default requests;

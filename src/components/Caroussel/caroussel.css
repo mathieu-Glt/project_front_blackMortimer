@@ -31,9 +31,18 @@
 
 }
 
-
-.card_container {
+.card_movie_light {
     background: rgb(88, 114, 150);
+
+}
+
+.card_movie_dark {
+    background: rgb(149, 93, 245);
+
+}
+
+
+.card_container_light {
     width: 50%;
     border-radius: 10px;
     padding: 3%;

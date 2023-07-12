@@ -5,18 +5,27 @@ import { loadMovies, loadMoviesFavories, loadMoviesRandom, loadOneMovieById } fr
 import Carousel from 'react-bootstrap/Carousel';
 import Slider from "../../components/Caroussel/carrousel";
 import './pagehome.css'
+import { useContext } from 'react'
+import { ThemeContext } from '../../context/index';
+
 
 
 const Home = (props) => {
+    const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
+
     console.log("🚀 ~ file: home.js:9 ~ Home ~ props:", props)
     console.log("🚀 ~ file: home.js:9 ~ Home ~ props:", props.movies.movies)
+    console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
+    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
+    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
+
 
     
     return (
         <>
         <h2  class='title_page'>Page Home</h2>
 
-        <Slider/>
+        <Slider theme={themeApp}/>
 
       </>
 

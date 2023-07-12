@@ -5,11 +5,20 @@ import { connect } from 'react-redux';
 import { loadMovies } from '../../actions/movie/movieAction';
 import { loadCharacters } from '../../actions/character/characterActions';
 import { loadAuthors } from '../../actions/author/authorActions';
+import { useContext } from 'react'
+import { ThemeContext } from '../../context/index';
 
 
 
 const Author = (props) => {
+
+    const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
+
     console.log("Les props des auteurs : ", props);
+    console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
+    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
+    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
+
     // const data = props.movies.movies;
     const { authors } = props;
     const [author, setAuthor] = useState([])
@@ -42,10 +51,12 @@ const Author = (props) => {
 
     }
 console.log('voici les props des auteurs : ', authors);
+{/* <section className={`${themeApp ? 'card_author_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_author_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}> */}
+
     return (
         <div>
             <h2 className='title_page_author'>Tous les auteurs</h2>
-            <section className='card_author d-flex flex-row flex-wrap justify-content-center p-4 pt-4'>
+            <section className={`${themeApp ? 'card_author_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_author_dark d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}>
                 {console.log("Les datas des movies : ", authors.authors)}
                 {/* {console.log("Les syno des movies : ", props.movies.movies[0].synopsis)}; */}
                 {/* {data.lenght > 0 && <ul> */}

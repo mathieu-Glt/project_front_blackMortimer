@@ -8,6 +8,8 @@ import validator from 'validator';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { login } from "../actions/auth/authAction";
+import { useLocalStorage } from "../utils/useLocalStorage.ts";
+
 
 const Login = (props) => {
     console.log("🚀 ~ file: Login.js:11 ~ Login ~ props:", props)
@@ -17,6 +19,10 @@ const Login = (props) => {
         email: "",
         password: "",
     })
+
+    const STORAGE_USER = "user";
+
+    const [storeUser, setStoreUser] = useLocalStorage(STORAGE_USER, {})
 
     const [error, setError] = useState([]);
     
@@ -53,11 +59,13 @@ const Login = (props) => {
             console.log('Todo Buen !');
             props.login(user);
 
+            setStoreUser(user);
             setUser({
                 email: "",
                 password: ""
             })
 
+            // window.location.href = "/";
 
         }
 

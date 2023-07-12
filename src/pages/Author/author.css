@@ -23,6 +23,11 @@
 }          
 
 
-.card_author {
+.card_author_light {
     background: rgb(80, 6, 252);
+}
+
+.card_author_dark {
+    background: rgb(149, 93, 245);
+
 }

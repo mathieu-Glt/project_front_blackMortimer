@@ -82,6 +82,8 @@
     
 
     .card_movie_container{
+        display: flex;
+        justify-content: center;
         padding: 4px;
         background: black;
         width: 500px;
@@ -171,9 +173,13 @@
         border: 2px solid rgb(14, 6, 6);
         margin: 10px;
     }
-    .card_movie {
+    .card_movies_light {
         background: rgb(93, 133, 245);
 
+    }
+
+    .card_movie_dark {
+        background: rgb(149, 93, 245);
     }
     .card_button_acceuil_lecture{
         margin: 3px auto;

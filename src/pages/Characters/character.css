@@ -17,8 +17,13 @@
     padding: 1%;
 }
 
-.card_character {
+.card_character_light {
     background: rgb(255, 60, 0);
+
+}
+
+.card_character_dark {
+    background: rgb(149, 93, 245);
 
 }
 

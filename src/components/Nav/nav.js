@@ -8,17 +8,26 @@ import SearchBar from '../SearchBar/searchBar';
 import { Link } from 'react-router-dom';
 import SearchByAuthor from '../searchByAuthor/searchByAuthor';
 import SearchByCategory from '../searchByCategory/searchByCategory';
+import { useContext } from 'react'
+import { ThemeContext } from '../../context/index';
+import LogoNavigation from '../LogoNavigation/logo';
 
 
 function Navigation(props) {
+    const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
+    console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
+    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
+    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
+
+
     console.log("Les props de navigation : ", props);
 
 
     return (
         <>
-                    <Navbar expand="lg" className="bg-warning">
+                    <Navbar expand="lg" className={`${themeApp ? 'bg-warning' : 'bg-danger'}`}>
                         <Container>
-                            <Navbar.Brand href="/">MOVIES</Navbar.Brand>
+                            <Navbar.Brand href="/"><LogoNavigation/></Navbar.Brand>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
