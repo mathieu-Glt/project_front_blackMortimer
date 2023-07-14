@@ -1,19 +1,19 @@
-import { LOAD_AUTHORS } from "../actions/author/actions-types";
+import { LOAD_AUTHORS_BY_NAME_ARTIST } from "../actions/author/actions-types";
 
 
 const initialState = {
-    authors: [],
+    author: ""
 }
 
 export default function authorReducer(state = initialState, action) {
     console.log(action);
     switch (action.type) {
-        case LOAD_AUTHORS:
+        case LOAD_AUTHORS_BY_NAME_ARTIST:
             return {
-                authors: action.payload
+                author: action.payload
             }
             break;
-            
+
         default:
             return state
             break;

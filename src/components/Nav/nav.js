@@ -11,15 +11,24 @@ import SearchByCategory from '../searchByCategory/searchByCategory';
 import { useContext } from 'react'
 import { ThemeContext } from '../../context/index';
 import LogoNavigation from '../LogoNavigation/logo';
-
+import { loadAuthorsByNameArtist } from '../../actions/author/authorActions';
+import React, { useEffect, useState } from 'react';
+import { loadCategories } from '../../actions/category/categoryActions';
+import { loadAuthors } from '../../actions/auteur/auteurActions';
 
 function Navigation(props) {
+    const { handleSubmitSearchMoviesByAuthor } = props
+    const { handleSubmitSearchMoviesByCategory } = props
     const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
     console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
     console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
     console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
 
-
+    useEffect(() => {
+        props.loadAuthorsByNameArtist();
+        props.loadCategories();
+    }, [])
+    
     console.log("Les props de navigation : ", props);
 
 
@@ -50,32 +59,35 @@ function Navigation(props) {
                                 </Nav>
                             </Navbar.Collapse>
                         </Container>
-                        <SearchByAuthor/>
-                        <SearchByCategory/>
-                        <SearchBar handleSubmitSearchForm={props.handleSubmitSearchForm}/>
+                        <SearchByAuthor handleSubmitSearchMoviesByAuthor={handleSubmitSearchMoviesByAuthor}/>
+                        <SearchByCategory handleSubmitSearchMoviesByCategory={handleSubmitSearchMoviesByCategory}/>
+                        <SearchBar handleSubmitSearchMoviesByQuery={props.handleSubmitSearchMoviesByQuery} />
                     </Navbar >
         </>
     )
 }
 
-export default Navigation;
+// export default Navigation;
 
 
 
-// const mapStateToProps = store => {
-//     console.log({ store });
-//     return {
-//         movies: store.movies,
-//         characters: store.characters,
-//         auth: store.auth,
-//         user: store.user
-//     }
-// }
+const mapStateToProps = store => {
+    console.log({ store });
+    return {
+        movies: store.movies,
+        characters: store.characters,
+        auth: store.auth,
+        user: store.user,
+        authors: store.authors,
+        categories: store.categories
 
-// const mapDispatchToProps = {
-//     loadMovies
-// }
+    }
+}
+
+const mapDispatchToProps = {
+    loadAuthors, loadAuthorsByNameArtist, loadCategories
+}
 
 
-// export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
 

@@ -1,7 +1,7 @@
 import { useApi }  from "../../services/AxiosInstance/useApi";
 import requests from "../../services/api/request";
 import { LOAD_MOVIES, LOAD_MOVIES_FAVORIES, LOAD_ONE_MOVIE_BY_ID, LOAD_MOVIES_RANDOM, LOAD_MOVIES_SEARCH_BY_QUERY } from "./actions-types";
-// import axios from 'axios';
+import axios from 'axios';
 
 
 

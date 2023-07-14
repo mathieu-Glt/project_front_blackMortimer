@@ -4,10 +4,9 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { loadMovies } from '../../actions/movie/movieAction';
 import { loadCharacters } from '../../actions/character/characterActions';
-import { loadAuthors } from '../../actions/author/authorActions';
 import { useContext } from 'react'
 import { ThemeContext } from '../../context/index';
-
+import { loadAuthors } from '../../actions/auteur/auteurActions';
 
 
 const Author = (props) => {
@@ -21,6 +20,7 @@ const Author = (props) => {
 
     // const data = props.movies.movies;
     const { authors } = props;
+    const { auteurs } = props;
     const [author, setAuthor] = useState([])
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -60,13 +60,13 @@ console.log('voici les props des auteurs : ', authors);
                 {console.log("Les datas des movies : ", authors.authors)}
                 {/* {console.log("Les syno des movies : ", props.movies.movies[0].synopsis)}; */}
                 {/* {data.lenght > 0 && <ul> */}
-                {authors.authors.map((a, i) => (
+                {auteurs.authors.map((a, i) => (
                     // <Movie movie={m} />
                     <div className='card_author_container d-flex justify-content-start' key={i}>
 
 
                         <div className="image ">
-                            <img className="image_database_acceuil" alt="B&M" src={process.env.PUBLIC_URL + '/images/author/' + a.picture} />
+                            <img className="image_database_acceuil" alt="B&M" src={process.env.PUBLIC_URL + '/images/author/' + a.pict} />
                         </div>
                         <div className="image ">
                             <h5>Etat civil :</h5>
@@ -102,7 +102,8 @@ const mapStateToProps = store => {
         characters: store.characters,
         auth: store.auth,
         user: store.user,
-        authors: store.authors
+        authors: store.authors,
+        auteurs: store.auteurs
     }
 }
 

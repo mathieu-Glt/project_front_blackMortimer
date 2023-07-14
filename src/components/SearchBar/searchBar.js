@@ -12,7 +12,7 @@ import { useContext } from 'react';
 
 const SearchBar = (props) => {
     console.log("🚀 ~ file: searchBar.js:8 ~ SearchBar ~ props:", props)
-    const { handleSubmitSearchForm } = props
+    const { handleSubmitSearchMoviesByQuery } = props
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchMovie, setSearchMovie] = useState('');
@@ -23,7 +23,7 @@ const SearchBar = (props) => {
     // fonction soumission formulaire se trouvant dans App
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleSubmitSearchForm(e, searchMovie);
+        handleSubmitSearchMoviesByQuery(e, searchMovie);
         setSearchMovie('');
     };
 

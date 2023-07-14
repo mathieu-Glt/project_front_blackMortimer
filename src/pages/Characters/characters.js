@@ -50,7 +50,6 @@ const Character = (props) => {
     }
 console.log('voici les props de characters : ', characters);
 
-{/* <section className={`${themeApp ? 'card_character_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_character_dark d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}> */}
 
     return (
         <div>
