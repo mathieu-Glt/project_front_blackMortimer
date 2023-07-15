@@ -8,6 +8,8 @@ import Button from 'react-bootstrap/Button';
 import { loadMovies } from '../../actions/movie/movieAction';
 import { loadCharacters } from '../../actions/character/characterActions';
 import { useContext } from 'react';
+import PersonIcon from '@mui/icons-material/Person';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 
 const SearchBar = (props) => {
@@ -43,6 +45,7 @@ console.log(searchMovie);
 
     return (
         <>
+
         <SearchIcon color="primary" className='searchbar_icon' onClick={searchClick}/>
         <Form 
         onSubmit={handleSubmit}

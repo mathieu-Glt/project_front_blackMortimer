@@ -20,6 +20,7 @@ import { ThemeContext } from './context';
 import Footer from './components/Footer/footer';
 import { useContext } from 'react'
 import React, { createContext } from 'react';
+import { handleStorage } from './utils/handleStorage';
 export const DataContext = createContext()
 
 
@@ -38,6 +39,7 @@ function App(props) {
 
   // booleen pour la gestion de l'affichage du résultat de la barre de recherche
   const [toggleSearchBar, setToggleSearchBar] = useState(false);
+  const [userStorage, setUserStorage] = useState([]);
   const [toggleSearch, setToggleSearch] = useState(false);
   const [toggleData, setTogleData] = useState(false);
   // const [toggleThemeApp, setToggleThemeApp] = useState(false);
@@ -47,7 +49,21 @@ function App(props) {
   const [movies, setMovies] = useState([]);
   const [moviesByAuthor, setMoviesByAuthor] = useState([]);
   const [moviesByCategory, setMoviesByCategory] = useState([]);
+  
+  useEffect(() => {
+    async function fetchDataUser(){
+      try {
+        const user = await handleStorage();
+        console.log("🚀 ~ file: App.js:57 ~ handleStorage ~ user:", user)
+      } catch (error) {
+        console.log("🚀 ~ file: App.js:59 ~ handleStorage ~ error:", error)
+        
+      }
+    }
 
+    fetchDataUser()
+  }, [])
+  
 
 
 

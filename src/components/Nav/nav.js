@@ -15,8 +15,26 @@ import { loadAuthorsByNameArtist } from '../../actions/author/authorActions';
 import React, { useEffect, useState } from 'react';
 import { loadCategories } from '../../actions/category/categoryActions';
 import { loadAuthors } from '../../actions/auteur/auteurActions';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';import { handleStorage } from '../../utils/handleStorage';
+import './nav.css'
+import { red } from '@mui/material/colors';
+import { createTheme } from '@mui/material/styles';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+
+
+
+const theme = createTheme({
+    palette: {
+      primary: red,
+    },
+  });
+
 
 function Navigation(props) {
+    const navigate = useNavigate()
+
+    const [toggleUserIcon, setToggleUserIcon] = useState(false)
     const { handleSubmitSearchMoviesByAuthor } = props
     const { handleSubmitSearchMoviesByCategory } = props
     const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
@@ -27,7 +45,35 @@ function Navigation(props) {
     useEffect(() => {
         props.loadAuthorsByNameArtist();
         props.loadCategories();
+        async function fetchDataUser(){
+            try {
+              const user = await handleStorage();
+              console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user)
+              setToggleUserIcon(true)
+            } catch (error) {
+              console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
+              
+            }
+          }
+      
+          fetchDataUser()
+      
     }, [])
+
+    const logout = () => {
+        console.log(' click logout');
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('refresh_token')
+        localStorage.removeItem('user')
+        
+        // on redirige vers l'acceuil
+        
+        navigate("/")
+
+    };
+
+
+
     
     console.log("Les props de navigation : ", props);
 
@@ -37,12 +83,13 @@ function Navigation(props) {
                     <Navbar expand="lg" className={`${themeApp ? 'bg-warning' : 'bg-danger'}`}>
                         <Container>
                             <Navbar.Brand href="/"><LogoNavigation/></Navbar.Brand>
+                            {toggleUserIcon ? <PersonIcon color= 'success' className='person_icon'/> : null }
+                            {toggleUserIcon ? <LogoutIcon theme={theme} className='person_icon' onClick={logout}/> : null }
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
                                     <Nav.Link href="/">HOME</Nav.Link>
                                     <Nav.Link href="/acceuil">ACCEUIL</Nav.Link>
-                                    
                                         <NavDropdown title="Sous-menu" id="basic-nav-dropdown">
                                         <NavDropdown.Item href="/characters">CHARACTERS</NavDropdown.Item>
                                         <NavDropdown.Item href="/authors">AUTHOR</NavDropdown.Item>
@@ -61,6 +108,8 @@ function Navigation(props) {
                         </Container>
                         <SearchByAuthor handleSubmitSearchMoviesByAuthor={handleSubmitSearchMoviesByAuthor}/>
                         <SearchByCategory handleSubmitSearchMoviesByCategory={handleSubmitSearchMoviesByCategory}/>
+                        {/* <PersonIcon className='person_icon'/> */}
+
                         <SearchBar handleSubmitSearchMoviesByQuery={props.handleSubmitSearchMoviesByQuery} />
                     </Navbar >
         </>

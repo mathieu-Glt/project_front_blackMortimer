@@ -14,8 +14,9 @@ const requests = {
     fetchMovieById: `${api_url}/api/movies/`,
     fetchMovieBySearch: `${api_url}/api/movies/research/`,
     fetchMovieRandom: `${api_url}/api/movies/random`,
+    fetchUser: `${api_url}/api/user/verify`,
     login: `${api_url}/api/login_check`,
-    register: `${api_url}/api/register`
+    register: `${api_url}/api/register`,
 
 }
 
