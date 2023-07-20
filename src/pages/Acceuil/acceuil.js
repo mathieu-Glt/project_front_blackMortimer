@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import { loadMovies } from '../../actions/movie/movieAction';
 import { useContext } from 'react'
 import { ThemeContext } from '../../context/index';
+import { handleStorage } from '../../utils/handleStorage';
 
 
 const Acceuil = (props) => {
-    
+
     const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
     console.log("🚀 ~ file: acceuil.js:9 ~ Acceuil ~ props:", props)
     console.log("Les props de acceuil : ", props.movies.movies);
@@ -21,13 +22,30 @@ const Acceuil = (props) => {
     const [movie, setMovie] = useState([])
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [admin, setAdmin] = useState(false);
+
+
+    useEffect(() => {
+        async function fetchDataUser() {
+            try {
+                const user = await handleStorage();
+                console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user)
+            } catch (error) {
+                console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
+
+            }
+        }
+
+        fetchDataUser()
+
+    }, [])
 
 
     useEffect(() => {
         try {
             props.loadMovies();
             setMovie(movies);
-            setTimeout(()=> {
+            setTimeout(() => {
 
                 setIsLoading(false);
             }, 2000)
@@ -50,7 +68,16 @@ const Acceuil = (props) => {
     return (
         <div>
             <h2 className="title_page_acceuil">Page Acceuil</h2>
+
             <section className={`${themeApp ? 'card_movies_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_movie_dark d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}>
+                
+            <Link to={`/addmovie`}>
+                <button className=" btn btn-primary ">
+                    Ajouter un film
+                </button>
+
+            </Link>
+<br></br>
                 {console.log("Les datas des movies : ", movies.movies)}
                 {/* {console.log("Les syno des movies : ", props.movies.movies[0].synopsis)}; */}
                 {/* {data.lenght > 0 && <ul> */}
@@ -64,16 +91,17 @@ const Acceuil = (props) => {
                         </div>
 
 
-                        <p>{m.synopsis.substring(0,489)}...</p>
+                        <p>{m.synopsis.substring(0, 489)}...</p>
                         <Link to={`/movie/${m.id}`}>
                             <button className="card_button_acceuil_details btn btn-primary ">
-                               Plus
+                                Détails
                             </button>
 
                         </Link>
                     </div>
                 ))}
                 {/* </ul>} */}
+
             </section>
         </div>
     )

@@ -68,7 +68,7 @@ console.log('voici les props de characters : ', characters);
 
 
                         <p>{c.information.substring(0,189)}...</p>
-                        <Link to={`/movie/`}>
+                        <Link to={`/character/${c.id}`}>
                             <button className="card_button_character ">
                                Plus
                             </button>

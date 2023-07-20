@@ -16,7 +16,8 @@ import React, { useEffect, useState } from 'react';
 import { loadCategories } from '../../actions/category/categoryActions';
 import { loadAuthors } from '../../actions/auteur/auteurActions';
 import PersonIcon from '@mui/icons-material/Person';
-import LogoutIcon from '@mui/icons-material/Logout';import { handleStorage } from '../../utils/handleStorage';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { handleStorage } from '../../utils/handleStorage';
 import './nav.css'
 import { red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
@@ -33,6 +34,10 @@ const theme = createTheme({
 
 function Navigation(props) {
     const navigate = useNavigate()
+    const location = useLocation()
+    console.log("🚀 ~ file: nav.js:37 ~ Navigation ~ location:", location)
+
+    
 
     const [toggleUserIcon, setToggleUserIcon] = useState(false)
     const { handleSubmitSearchMoviesByAuthor } = props
@@ -41,25 +46,30 @@ function Navigation(props) {
     console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
     console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
     console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
-
+    
     useEffect(() => {
         props.loadAuthorsByNameArtist();
         props.loadCategories();
-        async function fetchDataUser(){
-            try {
-              const user = await handleStorage();
-              console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user)
-              setToggleUserIcon(true)
-            } catch (error) {
-              console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
-              
-            }
-          }
-      
-          fetchDataUser()
-      
+        
     }, [])
 
+    useEffect(() => {
+        async function fetchDataUser(){
+            try {
+                const user = await handleStorage();
+                console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user)
+                setToggleUserIcon(!toggleUserIcon)
+            } catch (error) {
+                console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
+                
+            }
+        }
+        
+        fetchDataUser()
+
+    }, [location.pathname])
+    
+    console.log("🚀 ~ file: nav.js:38 ~ Navigation ~ toggleUserIcon:", toggleUserIcon)
     const logout = () => {
         console.log(' click logout');
         localStorage.removeItem('access_token')
@@ -67,8 +77,11 @@ function Navigation(props) {
         localStorage.removeItem('user')
         
         // on redirige vers l'acceuil
+        setToggleUserIcon(!toggleUserIcon)
         
-        navigate("/")
+        setTimeout(() => {
+            navigate('/register');
+        }, 5000)
 
     };
 

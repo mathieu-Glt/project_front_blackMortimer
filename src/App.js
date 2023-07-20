@@ -21,8 +21,9 @@ import Footer from './components/Footer/footer';
 import { useContext } from 'react'
 import React, { createContext } from 'react';
 import { handleStorage } from './utils/handleStorage';
+import CharacterById from './pages/CharacterById/characterById';
+import AddMovie from './pages/Movie/AddMovie';
 export const DataContext = createContext()
-
 
 
 function App(props) {
@@ -300,6 +301,7 @@ function App(props) {
           </Routes>
           </Router>
           <Footer/> */}
+          
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/acceuil" element={<Acceuil />} />
@@ -308,6 +310,8 @@ function App(props) {
             <Route path="/favories" element={<Favories />} />
             <Route path="/editmovie/:id" element={<EditMovie />} />
             <Route path="/movie/:id" element={<MovieId />} />
+            <Route path="/addmovie" element={<AddMovie />} />
+            <Route path="/character/:id" element={<CharacterById />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
           </Routes>

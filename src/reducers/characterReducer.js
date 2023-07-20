@@ -1,4 +1,4 @@
-import { LOAD_CHARACTERS } from "../actions/character/actions-types";
+import { LOAD_CHARACTERS, LOAD_ONE_CHARACTER_BY_ID } from "../actions/character/actions-types";
 
 const initialState = {
     characters: [],
@@ -12,7 +12,12 @@ export default function characterReducer(state = initialState, action) {
                 characters: action.payload
             }
             break;
-            
+        case LOAD_ONE_CHARACTER_BY_ID:
+            return {
+                characters: action.payload
+            }
+            break;
+
         default:
             return state
             break;

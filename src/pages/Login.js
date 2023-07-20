@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { loadMovies, loadMoviesFavories, loadOneMovieById } from '../actions/movie/movieAction';
@@ -9,22 +9,31 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { login } from "../actions/auth/authAction";
 import { useLocalStorage } from "../utils/useLocalStorage.ts";
-
+import { useNavigate, useNavigation } from "react-router-dom";
 
 const Login = (props) => {
     console.log("🚀 ~ file: Login.js:11 ~ Login ~ props:", props)
-
-
+    const navigate = useNavigate();
+    // const navigation = useNavigation();
+    // console.log("🚀 ~ file: Login.js:19 ~ Login ~ navigation:", navigation)
+    
+    
     const [user, setUser] = useState({
         email: "",
         password: "",
     })
-
+    
     const STORAGE_USER = "user";
 
     const [storeUser, setStoreUser] = useLocalStorage(STORAGE_USER, {})
+   
+    // const [isLogged, setIsLogged] = useState(false);
 
     const [error, setError] = useState([]);
+
+    // useEffect(() => {
+    //     // navigate(-1)
+    // }, [isLogged])
     
     function handleChange(evt) {
         console.log(evt);
@@ -33,6 +42,7 @@ const Login = (props) => {
         setUser({ ...user, [name]: value })
 
     }
+
 
     function handleSubmit(evt) {
         evt.preventDefault();
@@ -64,16 +74,21 @@ const Login = (props) => {
                 email: "",
                 password: ""
             })
-
             // window.location.href = "/";
-
+            setTimeout(() => {
+                navigate('/acceuil');
+            }, 5000)
         }
+
+
 
         console.log('Le user : ', user);
 
 
 
     }
+
+
 
 
     return (
