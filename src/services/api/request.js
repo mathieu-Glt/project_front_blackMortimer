@@ -17,6 +17,8 @@ const requests = {
     fetchMovieRandom: `${api_url}/api/movies/random`,
     fetchUser: `${api_url}/api/user/verify`,
     fetchUploadPicture: `${api_url}/api/movies/upload/picture`,
+    postMovieDatabase: `${api_url}/api/movies/add`,
+    fetchImageFolderPublicBack: `${api_url}/api/movies/images/`,
     login: `${api_url}/api/login_check`,
     register: `${api_url}/api/register`,
 

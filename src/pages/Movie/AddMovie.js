@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import validator from 'validator';
 import { loadMovies, loadOneMovieById } from "../../actions/movie/movieAction";
 import requests from "../../services/api/request";
@@ -41,6 +41,36 @@ const AddMovie = (props) => {
     function handleChangePicture(value, fieldname) {
         setSelectPicture({ ...selectPicture, [fieldname]: value });
     }
+
+    const saveMovie = (datas) => {
+    console.log("🚀 ~ file: AddMovie.js:46 ~ saveMovie ~ datas:", datas)
+    const body = {
+        title: datas.title,
+        rating: Number(datas.rating),
+        picture: datas.pictureUrl,
+        movie: datas.movieUrl,
+        category: Number(datas.category_id),
+        author: Number(datas.author_id),
+        synopsis: datas.synopsis,
+        slug: datas.slug
+    }
+    console.log("🚀 ~ file: AddMovie.js:48 ~ saveMovie ~ body:", body)
+    
+        axios.post(requests.postMovieDatabase, body, { 
+            headers: { 
+                'x-access-token': localStorage.getItem('access_token'),
+                'Access-Control-Allow-Origin': '*'
+
+            }})
+            .then((response) => {
+                console.log("🚀 ~ file: AddMovie.js:54 ~ .then ~ response:", response)
+                if(response.data.status === 200) {
+                    setRedirect(true)
+                }
+            })
+            .catch(err=>console.log(err))
+        
+    }
     
     
     
@@ -54,7 +84,7 @@ const AddMovie = (props) => {
 
         const data = { ...movie, pictureUrl: selectPicture.picture.name}
         console.log("🚀 ~ file: AddMovie.js:57 ~ postAddMovie ~ data:", data)
-console.log(typeof(localStorage.getItem('access_token')));
+        console.log(typeof(localStorage.getItem('access_token')));
 
         axios({
             method: "post",
@@ -68,8 +98,15 @@ console.log(typeof(localStorage.getItem('access_token')));
         })
         .then((response) => {
             console.log("🚀 ~ file: AddMovie.js:69 ~ .then ~ response:", response)
-            if(response.data.status) {
+            if(response.data.status === 200) {
                 console.log("Tout s'est bien passée pour l'envoie image");
+                const datas = { 
+                    ...movie, 
+                    pictureUrl: response.data.pictureUrl
+                }
+                console.log("🚀 ~ file: AddMovie.js:74 ~ .then ~ datas:", datas)
+                saveMovie(datas);
+
             }
             
         })
@@ -121,8 +158,9 @@ console.log(typeof(localStorage.getItem('access_token')));
 
 
 
-console.log(error);
-
+    if(redirect) {
+        return <Navigate to="/acceuil"/>
+    }
 
     return (
         <>

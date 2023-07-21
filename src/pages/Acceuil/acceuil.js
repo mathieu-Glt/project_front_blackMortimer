@@ -6,6 +6,8 @@ import { loadMovies } from '../../actions/movie/movieAction';
 import { useContext } from 'react'
 import { ThemeContext } from '../../context/index';
 import { handleStorage } from '../../utils/handleStorage';
+import axios from 'axios';
+import requests, { api_url } from '../../services/api/request';
 
 
 const Acceuil = (props) => {
@@ -23,22 +25,47 @@ const Acceuil = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [admin, setAdmin] = useState(false);
-
-
+    const [imageUrl, setImageUrl] = useState('');
+    
+    
     useEffect(() => {
         async function fetchDataUser() {
             try {
                 const user = await handleStorage();
                 console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user)
+                
+                
+                
+                
+                
+                
+                
             } catch (error) {
                 console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
-
+                
             }
         }
-
+        
         fetchDataUser()
-
+        
     }, [])
+    
+
+    axios.get(requests.fetchImageFolderPublicBack + '64baf1401072c.jpg')
+    .then((response) => {
+        console.log("🚀 ~ file: acceuil.js:37 ~ .then ~ response:", response)
+        
+        if(!response.ok) {
+            console.log('Image not found')
+        }
+        return response.blob();
+    })
+    .then((blob) => {
+        setImageUrl(URL.createObjectURL(blob));
+    })
+    .catch((err)=>console.log(err))
+
+    console.log("🚀 ~ file: acceuil.js:29 ~ Acceuil ~ imageUrl:", imageUrl)
 
 
     useEffect(() => {
@@ -101,6 +128,7 @@ const Acceuil = (props) => {
                     </div>
                 ))}
                 {/* </ul>} */}
+                <img src={`${api_url}/api/movies/images/64baf1401072c.jpg`}/>
 
             </section>
         </div>
