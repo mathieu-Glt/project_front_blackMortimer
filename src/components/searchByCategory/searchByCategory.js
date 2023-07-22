@@ -7,8 +7,10 @@ import Button from 'react-bootstrap/Button';
 import { loadCategories } from '../../actions/category/categoryActions';
 
 const SearchByCategory = (props) => {
-    console.log("🚀 ~ file: searchByAuthor.js:11 ~ SearchByAuthor ~ props:", props.categories.categories)
+    console.log("🚀 ~ file: searchByAuthor.js:11 ~ SearchByAuthor ~ props:", props)
     const { handleSubmitSearchMoviesByCategory } = props
+    const { category } = props
+    console.log("🚀 ~ file: searchByCategory.js:13 ~ SearchByCategory ~ category:", category)
 
 
     const [isLoading, setIsLoading] = useState(true);

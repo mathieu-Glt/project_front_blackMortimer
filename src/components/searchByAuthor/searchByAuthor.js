@@ -8,8 +8,9 @@ import { loadAuthorsByNameArtist } from '../../actions/author/authorActions';
 import { loadAuthors } from '../../actions/auteur/auteurActions';
 
 const SearchByAuthor = (props) => {
-    console.log("🚀 ~ file: searchByAuthor.js:11 ~ SearchByAuthor ~ props:", props.authors.author)
+    console.log("🚀 ~ file: searchByAuthor.js:11 ~ SearchByAuthor ~ props:", props)
     const { handleSubmitSearchMoviesByAuthor } = props
+    const { author } = props
 
 
 

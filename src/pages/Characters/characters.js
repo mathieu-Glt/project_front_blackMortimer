@@ -28,7 +28,7 @@ const Character = (props) => {
         try {
             props.loadCharacters();
             setCharacter(characters);
-            setTimeout(()=> {
+            setTimeout(() => {
 
                 setIsLoading(false);
             }, 2000)
@@ -48,16 +48,21 @@ const Character = (props) => {
         // setIsLoading(false);
 
     }
-console.log('voici les props de characters : ', characters);
+    console.log('voici les props de characters : ', characters);
 
 
     return (
         <div>
             <h2 className='title_page_character'>Page personnage des séries</h2>
             <section className={`${themeApp ? 'card_character_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_character_dark d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}>
-                {/* {console.log("Les datas des movies : ", movies.movies)} */}
-                {/* {console.log("Les syno des movies : ", props.movies.movies[0].synopsis)}; */}
-                {/* {data.lenght > 0 && <ul> */}
+
+                <Link to={`/addcharacter`}>
+                    <button className=" btn btn-primary ">
+                        Ajouter un peronnage
+                    </button>
+
+                </Link>
+
                 {characters.characters.map((c, i) => (
                     <div className='card_character_container d-flex justify-content-start' key={i}>
 
@@ -67,10 +72,10 @@ console.log('voici les props de characters : ', characters);
                         </div>
 
 
-                        <p>{c.information.substring(0,189)}...</p>
+                        <p>{c.information.substring(0, 189)}...</p>
                         <Link to={`/character/${c.id}`}>
                             <button className="card_button_character ">
-                               Plus
+                                Plus
                             </button>
 
                         </Link>

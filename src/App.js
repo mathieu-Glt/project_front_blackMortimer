@@ -23,6 +23,9 @@ import React, { createContext } from 'react';
 import { handleStorage } from './utils/handleStorage';
 import CharacterById from './pages/CharacterById/characterById';
 import AddMovie from './pages/Movie/AddMovie';
+import { loadAuthorsByNameArtist } from './actions/author/authorActions';
+import { loadCategories } from './actions/category/categoryActions';
+import AddCharacter from './pages/Characters/AddCharacter';
 export const DataContext = createContext()
 
 
@@ -50,6 +53,72 @@ function App(props) {
   const [movies, setMovies] = useState([]);
   const [moviesByAuthor, setMoviesByAuthor] = useState([]);
   const [moviesByCategory, setMoviesByCategory] = useState([]);
+  const [author, setAuthor] = useState();
+  const [category, setCategory] = useState();
+  const [pictures, setPictures] = useState();
+  
+  async function fetchData(url) {
+    try {
+      const response = await axios.get(url);
+      console.log("🚀 ~ file: App.js:59 ~ fetchData ~ response:", response)
+      // const response = await axios.get(url);
+      // console.log("🚀 ~ file: App.js:61 ~ fetchData ~ responseCategory:", response)
+      return response.data;
+    } catch (error) {
+      console.log('Error during occured while executing the query : ', error);
+      throw error;
+    }
+  }
+  
+  const urlCategories = requests.fetchAllCategories;
+  const urlAuthor = requests.fetchAllAuthorsByNameArtist;
+  
+
+  
+  useEffect(() => {
+        props.loadAuthorsByNameArtist();
+        props.loadCategories();
+
+    console.log(' coucou coucou coucou');
+    
+    Promise.allSettled([fetchData(urlAuthor), fetchData(urlCategories)])
+    .then((response) => {
+      console.log("🚀 ~ file: App.js:82 ~ .then ~ response:", response)
+      
+      response.forEach((result, index) => {
+        switch(result.status) {
+          case 'fulfilled':
+            if(index === 0) {
+              setAuthor(result.value.results)
+              console.log('Le résultat pour author : ', result);
+            } else {
+              setCategory(result.value.results)
+              console.log('Le résultat pour category : ', result);
+            }
+          break;
+          case 'rejected':
+            if(result.reason) {
+              console.log(result.reason);
+              props.loadAuthorsByNameArtist();
+            } else {
+              console.log(result.reason);
+            }
+          break;
+        default:
+          console.log('erreur');
+          break;
+        }
+      })
+      
+    })
+    .catch((error) => {
+      console.log('Error during occured while executing the query');
+    });
+    
+  }, [])
+  
+  console.log("🚀 ~ file: App.js:55 ~ App ~ category:", category)
+  console.log("🚀 ~ file: App.js:54 ~ App ~ author:", author)
   
   useEffect(() => {
     async function fetchDataUser(){
@@ -61,13 +130,29 @@ function App(props) {
         
       }
     }
+    
+    
 
     fetchDataUser()
   }, [])
   
 
+  useEffect(() => {
+    async function fetchPictures() {
+      try {
+        const pictures = await axios.get(requests.fetchPictures)
+        console.log("🚀 ~ file: App.js:160 ~ fetchPicutres ~ pictures:", pictures)
+        setPictures(pictures.data.results)
+      } catch (error) {
+        console.log("🚀 ~ file: App.js:162 ~ fetchPicutres ~ error:", error)
+        
+      }
+    }
+    fetchPictures();
+  }, [])
 
 
+  
   // fonction soumission formulaire recherche titre film se trouvant dans App
   const handleSubmitSearchMoviesByQuery = (e, searchMovie) => {
     console.log(' clic search movie');
@@ -82,26 +167,26 @@ function App(props) {
         'Access-Control-Allow-Methods': '*'
       }
     })
-      .then((response) => {
-        console.log('Les films de la recherche : ', response.data.results);
-        setMovies(response.data.results)
-      })
-      .catch(err => console.log(err))
+    .then((response) => {
+      console.log('Les films de la recherche : ', response.data.results);
+      setMovies(response.data.results)
+    })
+    .catch(err => console.log(err))
 
     setTimeout(() => {
       setResultSearchMovie(movies);
       setTogleData(!toggleData);
     }, 1000)
-
+    
     setTimeout(() => {
       // setData(data)
       setToggleSearchBar(!toggleSearchBar);
     }, 1000)
-
-
-
+    
+    
+    
   }
-
+  
   // fonction soumission formulaire recherche titre film se trouvant dans App
   const handleSubmitSearchMoviesByAuthor = (e, searchAuthors) => {
     console.log(' clic search author');
@@ -115,75 +200,77 @@ function App(props) {
         'Access-Control-Allow-Methods': '*'
       }
     })
-      .then((response) => {
-        console.log('Les films de la recherche pour auteur : ', response.data.results);
-        setMoviesByAuthor(response.data.results)
-      })
-      .catch(err => console.log(err))
-
+    .then((response) => {
+      console.log('Les films de la recherche pour auteur : ', response.data.results);
+      setMoviesByAuthor(response.data.results)
+    })
+    .catch(err => console.log(err))
+    
     setTimeout(() => {
       setResultSearchMovieByAuthor(moviesByAuthor);
       setTogleData(!toggleData);
     }, 1000)
-
+    
     setTimeout(() => {
       // setData(data)
       setToggleSearchBar(!toggleSearchBar);
     }, 1000)
-
-
+    
+    
   }
-
-    // fonction soumission formulaire recherche titre film se trouvant dans App
-    const handleSubmitSearchMoviesByCategory = (e, searchCategorie) => {
-      console.log(' clic search author');
-      console.log("🚀 ~ file: App.js:20 ~ handleSubmitSearchByAuthor ~ searchAuthors:", searchCategorie)
-      e.preventDefault();
-      // setCloseSearchBar(true)
-      //TODO: creee requête axios ici de recherche film
-      axios.get(requests.fetchMoviesByCategory + searchCategorie, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': '*'
-        }
-      })
-        .then((response) => {
-          console.log('Les films de la recherche pour auteur : ', response.data.results);
-          setMoviesByCategory(response.data.results)
-        })
-        .catch(err => console.log(err))
   
-      setTimeout(() => {
-        setResultSearchMovieByCategory(moviesByCategory);
-        setTogleData(!toggleData);
-      }, 1000)
+  // fonction soumission formulaire recherche titre film se trouvant dans App
+  const handleSubmitSearchMoviesByCategory = (e, searchCategorie) => {
+    console.log(' clic search author');
+    console.log("🚀 ~ file: App.js:20 ~ handleSubmitSearchByAuthor ~ searchAuthors:", searchCategorie)
+    e.preventDefault();
+    // setCloseSearchBar(true)
+    //TODO: creee requête axios ici de recherche film
+    axios.get(requests.fetchMoviesByCategory + searchCategorie, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': '*'
+      }
+    })
+    .then((response) => {
+      console.log('Les films de la recherche pour auteur : ', response.data.results);
+      setMoviesByCategory(response.data.results)
+    })
+    .catch(err => console.log(err))
+    
+    setTimeout(() => {
+      setResultSearchMovieByCategory(moviesByCategory);
+      setTogleData(!toggleData);
+    }, 1000)
+    
+    setTimeout(() => {
+      // setData(data)
+      setToggleSearchBar(!toggleSearchBar);
+    }, 1000)
+    
+    
+  }
   
-      setTimeout(() => {
-        // setData(data)
-        setToggleSearchBar(!toggleSearchBar);
-      }, 1000)
   
   
-    }
-  
-
-
   // fonction pour fermer l'affichage de la recherche
   const handleClickSearchClose = (e) => {
     e.preventDefault();
     setToggleSearchBar(!toggleSearchBar);
     // on redirige vers l'acceuil
     // windows.location.href("/")
-
-
-
+    
+    
+    
   }
 
   console.log(' le résultat de App pour la recherche film : ', movies);
   console.log(' le résultat de App pour la recherche film par auteur : ', moviesByAuthor);
   console.log(' le résultat de App pour la recherche film par auteur : ', moviesByCategory);
-
-
+  
+  console.log("🚀 ~ file: App.js:59 ~ App ~ pictures:", pictures)
+  
+  
   return (
     <>
       <div className='App'>
@@ -191,12 +278,17 @@ function App(props) {
           <Navigation handleSubmitSearchMoviesByCategory={handleSubmitSearchMoviesByCategory} handleSubmitSearchMoviesByQuery={handleSubmitSearchMoviesByQuery} handleSubmitSearchMoviesByAuthor={handleSubmitSearchMoviesByAuthor} />
           
           {/* recherche film par query */}
+          {pictures && pictures.map((p, i) => (
+          <img src={"C:/Users/mathi/Documents/back-tintin-symfony" + p.substring(63)}/>
+          ))}
+
           <div className={`${toggleSearchBar ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
             <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
               <div className='results_search'>
                 <h5 className='title_button_close_searchbar'>Résultat de la recherche
                   <button className='button_close_results_searchbar' onClick={handleClickSearchClose}>Close</button>
                 </h5>
+
                 <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
                   {movies.map((m, i) => (
                     <div className='card_movie_container ' key={i}>
@@ -311,6 +403,7 @@ function App(props) {
             <Route path="/editmovie/:id" element={<EditMovie />} />
             <Route path="/movie/:id" element={<MovieId />} />
             <Route path="/addmovie" element={<AddMovie />} />
+            <Route path="/addcharacter" element={<AddCharacter />} />
             <Route path="/character/:id" element={<CharacterById />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
@@ -328,12 +421,15 @@ const mapStateToProps = store => {
     movies: store.movies,
     characters: store.characters,
     auth: store.auth,
-    user: store.user
+    user: store.user,
+    authors: store.authors,
+    categories: store.categories
+
   }
 }
 
 const mapDispatchToProps = {
-  loadMoviesBySearch
+  loadMoviesBySearch, loadAuthorsByNameArtist, loadCategories
 }
 
 
