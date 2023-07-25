@@ -1,5 +1,5 @@
 import requests from "../../services/api/request";
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_USER } from "./actions-types";
+import { LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_USER, LOAD_USER_STORAGE } from "./actions-types";
 import axios from 'axios';
 import { api_url } from "../../services/api/request";
 
@@ -47,6 +47,21 @@ export const login = (body) => {
         })
 
 
+    }
+}
+
+export const userConnected = () => {
+    try {
+        const tokenStorage = localStorage.getItem('access_token')
+        const token = JSON.parse(tokenStorage)
+        console.log("🚀 ~ file: authAction.js:56 ~ userConnected ~ token:", token)
+        const userStorage = localStorage.getItem('user')
+        const user = JSON.parse(userStorage)
+        console.log("🚀 ~ file: authAction.js:56 ~ userConnected ~ user:", user)
+        
+    } catch (error) {
+        console.log("🚀 ~ file: authAction.js:63 ~ userConnected ~ error:", error)
+        
     }
 }
 

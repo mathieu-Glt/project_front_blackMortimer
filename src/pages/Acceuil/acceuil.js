@@ -26,19 +26,21 @@ const Acceuil = (props) => {
     const [error, setError] = useState(null);
     const [admin, setAdmin] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
     
     
     useEffect(() => {
         async function fetchDataUser() {
             try {
                 const user = await handleStorage();
-                console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user)
-                
-                
-                
-                
-                
-                
+                console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user.roles)
+                const roles = user.roles;
+                for (const role of roles) {
+                    if(role === "ROLE_ADMIN") {
+                        console.log(role);
+                        setIsAdmin(!isAdmin)
+                    }
+                }
                 
             } catch (error) {
                 console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
@@ -50,7 +52,7 @@ const Acceuil = (props) => {
         
     }, [])
     
-
+    
     axios.get(requests.fetchImageFolderPublicBack + '64baf1401072c.jpg')
     .then((response) => {
         console.log("🚀 ~ file: acceuil.js:37 ~ .then ~ response:", response)
@@ -64,10 +66,10 @@ const Acceuil = (props) => {
         setImageUrl(URL.createObjectURL(blob));
     })
     .catch((err)=>console.log(err))
-
-    console.log("🚀 ~ file: acceuil.js:29 ~ Acceuil ~ imageUrl:", imageUrl)
-
-
+    
+    console.log("🚀 ~ file: acceuil.js:30 ~ Acceuil ~ isAdmin:", isAdmin)   
+    
+    
     useEffect(() => {
         try {
             props.loadMovies();
@@ -98,12 +100,12 @@ const Acceuil = (props) => {
 
             <section className={`${themeApp ? 'card_movies_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_movie_dark d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}>
                 
-            <Link to={`/addmovie`}>
+            {isAdmin ? <Link to={`/addmovie`}>
                 <button className=" btn btn-primary ">
                     Ajouter un film
                 </button>
 
-            </Link>
+            </Link> : null}
 <br></br>
                 {console.log("Les datas des movies : ", movies.movies)}
                 {/* {console.log("Les syno des movies : ", props.movies.movies[0].synopsis)}; */}

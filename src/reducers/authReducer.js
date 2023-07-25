@@ -1,4 +1,4 @@
-import { LOGIN_START, LOGOUT_USER, LOGIN_SUCCESS, LOGIN_FAILURE } from "../actions/auth/actions-types"
+import { LOGIN_START, LOGOUT_USER, LOGIN_SUCCESS, LOGIN_FAILURE, LOAD_USER_STORAGE } from "../actions/auth/actions-types"
 
 const initialState = {
     token: null,
@@ -7,7 +7,8 @@ const initialState = {
     lastname: null,
     email: null,
     isLogged: false,
-    error: null
+    error: null,
+    user: null
 }
 
 export default function AuthReducer(state = initialState, action) {
@@ -35,7 +36,16 @@ export default function AuthReducer(state = initialState, action) {
                 error: action.payload,
                 isLogged: false
             }
+            break;        
+        case LOAD_USER_STORAGE:
+            return {
+                ...state,
+                user: action.payload,
+                token: action.payload,
+                isLogged: true
+            }
             break;
+
         case LOGOUT_USER:
             return {
                 ...state,

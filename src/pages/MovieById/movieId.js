@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { loadOneMovieById } from '../../actions/movie/movieAction';
 import { connect } from 'react-redux';
+import { handleStorage } from '../../utils/handleStorage';
 
 const MovieId = (props) => {
     const params = useParams();
@@ -10,10 +11,37 @@ const MovieId = (props) => {
 
     console.log("Les props de movieById : ", props);
     const data = props.movies.movies;
+    const [isAdmin, setIsAdmin] = useState(false);
+
 
     useEffect(() => {
         props.myActionWithPram(id)
     }, [])
+
+    useEffect(() => {
+        async function fetchDataUser() {
+            try {
+                const user = await handleStorage();
+                console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user.roles)
+                const roles = user.roles;
+                for (const role of roles) {
+                    if(role === "ROLE_ADMIN") {
+                        console.log(role);
+                        setIsAdmin(!isAdmin)
+                    }
+                }
+                
+            } catch (error) {
+                console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
+                
+            }
+        }
+        
+        fetchDataUser()
+        
+    }, [id])
+
+    console.log("🚀 ~ file: EditMovie.js:17 ~ EditMovie ~ isAdmin:", isAdmin)
 
 
 
@@ -27,11 +55,11 @@ const MovieId = (props) => {
                         <img className="image_database_acceuil" alt="B&M" src={process.env.PUBLIC_URL + '/images/black&Mortimer/' + data.picture} />
                     </div>
                     <p>{data.synopsis}</p>
-                    <Link to={`/editmovie/${data.id}`}>
+                    {isAdmin ? <Link to={`/editmovie/${data.id}`}>
                         <button type='button' className='card_button_acceuil_edit'>
                             Editer le film
                         </button>
-                    </Link>
+                    </Link> : null}
 
                 </div>
             </section>

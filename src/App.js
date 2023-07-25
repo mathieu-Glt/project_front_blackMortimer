@@ -56,7 +56,7 @@ function App(props) {
   const [author, setAuthor] = useState();
   const [category, setCategory] = useState();
   const [pictures, setPictures] = useState();
-  
+  const absoluteURL = new URL(window.location.origin)
   async function fetchData(url) {
     try {
       const response = await axios.get(url);
