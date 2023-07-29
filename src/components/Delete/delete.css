@@ -1,0 +1,8 @@
+.btn_supprimer {
+    background: red;
+    color: white;
+    padding: 1%;
+    width: 120px;
+    border: none;
+    border-radius: 5px;
+}

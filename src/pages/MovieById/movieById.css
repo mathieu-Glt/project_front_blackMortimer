@@ -16,5 +16,15 @@
     background: rgb(255, 191, 0);
     color: black;
     padding: 1%;
+    width: 120px;
+    border: none;
+    border-radius: 5px;
+
+}
+
+.container_buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 

@@ -164,7 +164,7 @@ const AddMovie = (props) => {
     }
 
     return (
-        <div className='page_edit'>
+        <div className='page_add'>
             <h2>Formulaire de creation d'un film</h2>
             <div className='container_add'>
                 <div className='image_movie'>
@@ -172,7 +172,7 @@ const AddMovie = (props) => {
                 </div>
                 <div className='formadd_movie'>
                     <h4>{props.movies.movies.title}</h4>
-                    <h2>Formulaire pour editer un film</h2>
+                    <h2>Formulaire pour ajouter un film</h2>
                     {error !== null && <p>{error}</p>}
                     <form onSubmit={(evt) => handleSubmit(evt)} encType="multipart/form-data">
                         <label htmlFor="category_id">Entrer la catégorie du film :</label>

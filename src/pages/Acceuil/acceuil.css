@@ -102,11 +102,16 @@
         width: 300px;
     }
     .card_button_acceuil_edit{
-        background: rgb(255, 196, 0);
+        background: rgb(255, 191, 0);
         color: black;
         padding: 1%;
+        width: 120px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 50px;
+    
     }
-
+    
     .image_database_acceuil{
         width: 70%;
         margin: 0 auto;

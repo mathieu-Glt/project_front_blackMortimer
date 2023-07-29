@@ -52,4 +52,43 @@
 
 }
 
+.container_edit {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: start; */
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 2%;
+    width: 80vw;
+    margin : 10px auto;
+    background: rgb(255, 208, 0);
+}
 
+
+.container_add {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: start; */
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 2%;
+    width: 80vw;
+    margin : 10px auto;
+    background: rgb(0, 157, 255);
+}
+
+
+
+.page_edit {
+    background-color: rgb(141, 60, 39);
+    width: 98vw;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+.page_add {
+    background-color: rgb(255, 97, 6);
+    width: 98vw;
+    border-radius: 10px;
+    margin: 0 auto;
+}

@@ -4,16 +4,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { loadOneMovieById } from '../../actions/movie/movieAction';
 import { connect } from 'react-redux';
 import { userConnected } from '../../actions/auth/authAction';
-import './movie.css';
 import axios from 'axios';
 import requests from '../../services/api/request';
+import { loadOneCharacterById } from '../../actions/character/characterActions';
 
-const EditMovie = (props) => {
-    // console.log("Les props de edit movie : ", props.movies.movies);
-    console.log("Les props de edit movie : ", props);
+
+
+const EditCharacter = (props) => {
+    console.log("Les props de edit character : ", props);
     const params = useParams();
     let id = params.id
-    console.log("🚀 ~ file: EditMovie.js:11 ~ EditMovie ~ id:", id)
 
 
     const [error, setError] = useState("");
@@ -21,44 +21,45 @@ const EditMovie = (props) => {
     const [selectPicture, setSelectPicture] = useState({
         picture: ""
     });
-    const [movie, setMovie] = useState({
-        title: "",
-        synopsis: "",
-        movieUrl: "",
-        rating: "",
+
+
+    const [character, setCharacter] = useState({
+        firstname: "",
+        lastname: "",
+        occupation: "",
+        information: "",
         slug: ""
         
     });
 
 
     useEffect(() => {
-        props.loadOneMovieById(id)
+        props.loadOneCharacterById(id)
     }, [id])
 
     function handleChange(evt) {
         console.log(evt);
         const { name, value } = evt.target
-        console.log("🚀 ~ file: EditMovie.js:39 ~ handleChange ~ value:", value)
-        setMovie({ ...movie, [name]: value })
+        setCharacter({ ...character, [name]: value })
     }
     
     function handleChangePicture(value, fieldname) {
         setSelectPicture({ ...selectPicture, [fieldname]: value });
     }
 
-    const saveMovie = (datas) => {
-        console.log("🚀 ~ file: AddMovie.js:46 ~ saveMovie ~ datas:", datas)
+    const saveCharacter = (datas) => {
+        console.log('je suis dans le saveCharcter ');
         const body = {
-            title: datas.title,
-            rating: Number(datas.rating),
+            firstname: datas.firstname,
+            lastname: datas.lastname,
+            information: datas.information,
             picture: datas.pictureUrl,
-            movie: datas.movieUrl,
-            synopsis: datas.synopsis,
+            occupation: datas.occupation,
             slug: datas.slug
         }
-        console.log("🚀 ~ file: AddMovie.js:48 ~ saveMovie ~ body:", body)
+        console.log("🚀 ~ file: EditCharacter.js:59 ~ saveCharacter ~ body:", body)
 
-        axios.put(requests.putMovieDatabase + id, body, {
+        axios.put(requests.putCharacterDatabase + id, body, {
             headers: {
                 'x-access-token': localStorage.getItem('access_token'),
                 'Access-Control-Allow-Origin': '*'
@@ -66,7 +67,6 @@ const EditMovie = (props) => {
             }
         })
             .then((response) => {
-                console.log("🚀 ~ file: AddMovie.js:54 ~ .then ~ response:", response)
                 if (response.data.status === 200) {
                     setRedirect(true)
                 }
@@ -76,14 +76,14 @@ const EditMovie = (props) => {
     }
 
 
-    const putMovie = () => {
-        console.log('je suis ds le putMovie');
+    const putCharacter = () => {
+        console.log('je suis ds le putCharacter');
         let formData = new FormData();
         formData.append('image', selectPicture.picture);
-        console.log("🚀 ~ file: AddMovie.js:44 ~ handleSubmit ~ formData:", formData)
-        const data = { ...movie, pictureUrl: selectPicture.picture.name }
-        console.log("🚀 ~ file: AddMovie.js:57 ~ postAddMovie ~ data:", data)
+        const data = { ...character, pictureUrl: selectPicture.picture.name }
+        console.log("🚀 ~ file: EditCharacter.js:82 ~ putCharacter ~ data:", data)
         console.log(typeof (localStorage.getItem('access_token')));
+        console.log(localStorage.getItem('access_token'));
 
 
     axios({
@@ -99,21 +99,18 @@ const EditMovie = (props) => {
 
     })
     .then((response) => {
-        console.log("🚀 ~ file: AddMovie.js:69 ~ .then ~ response:", response)
         if (response.data.status === 200) {
-            console.log("Tout s'est bien passée pour l'envoie image");
             const datas = {
-                ...movie,
+                ...character,
                 pictureUrl: response.data.pictureUrl
             }
-            console.log("🚀 ~ file: AddMovie.js:74 ~ .then ~ datas:", datas)
-            saveMovie(datas);
+            saveCharacter(datas);
 
         }
 
     })
     .catch((error) => {
-        console.log("🚀 ~ file: AddMovie.js:73 ~ postAddMovie ~ error:", error)
+    console.log("🚀 ~ file: EditCharacter.js:106 ~ putCharacter ~ error:", error)
 
     })
 
@@ -125,22 +122,16 @@ const EditMovie = (props) => {
     const handleSubmit = (evt) => {
         evt.preventDefault();
         console.log("Je suis dans le handlesubmit");
-        const rating = parseInt(movie.rating)
+        console.log(" Les personnages :", character);
 
-        if (movie.title === "" || movie.synopsis === "" || movie.movieUrl === "" || movie.slug === "") {
+        if (character.firstname === "" || character.lastname === "" || character.occupation === "" || character.information === "" || character.slug === "") {
             console.log("condition 1");
             setError("Tous les champs ne sont pas remplis")
 
 
-        } else if (isNaN(rating)) {
-            console.log("condition 2");
-
-            setError("Les champs category, author et rating doivent être des chiffres ! ")
-
-
         } else {
             console.log("condition 3");
-            putMovie();
+            putCharacter();
         
 
 
@@ -152,29 +143,53 @@ const EditMovie = (props) => {
 
     return (
         <div className='page_edit'>
-            <h2>Page pour éditer un film</h2>
+            <h2>Page pour éditer un personnage</h2>
             <div className='container_edit'>
                 <div className='image_movie'>
-                <img className="image_editmovie" alt="B&M" src={process.env.PUBLIC_URL + '/images/black&Mortimer/' + props.movies.movies.picture} />
+                <img className="image_editmovie" alt="B&M" src={process.env.PUBLIC_URL + '/images/charcter/' + props.characters.characters.picture} />
                 </div>
                 <div className='formedit_movie'>
-                    <h4>{props.movies.movies.title}</h4>
-                    <h2>Formulaire pour editer un film</h2>
+                    <h4>{props.characters.characters.lastname} {props.characters.characters.firstname}</h4>
+                    <h2>Formulaire pour editer un personnage</h2>
             {error !== null && <p>{error}</p>}
             <form onSubmit={(evt) => handleSubmit(evt)} encType="multipart/form-data">
                 {error.author_id && <span>{error.author_id}</span>}
                 <br></br>
-                <label htmlFor="title">Entrer le titre du film :</label>
+                <label htmlFor="firstname">Entrer le prénom du personnage :</label>
                 <input
                     type="text"
                     className="form-control"
-                    id="title"
-                    name="title"
-                    value={movie.title}
-                    placeholder="exemple: Les aventures de Tintin"
+                    id="firstname"
+                    name="firstname"
+                    value={character.firstname}
+                    placeholder="exemple: Allan"
                     onChange={(evt) => handleChange(evt)}
                 />
                 {error.title && <span>{error.title}</span>}
+                <br></br>
+                <label htmlFor="lastname">Entrer le nom du personnage :</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="lastname"
+                    name="lastname"
+                    value={character.lastname}
+                    placeholder="exemple: Thompson"
+                    onChange={(evt) => handleChange(evt)}
+                />
+                {error.picture && <span>{error.picture}</span>}
+                <br></br>
+                <label htmlFor="occupation">Entrer l'occupation du personnage :</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="occupation"
+                    name="occupation"
+                    value={character.occupation}
+                    placeholder="exemple: Fonctionnnaire"
+                    onChange={(evt) => handleChange(evt)}
+                />
+                {error.synopsis && <span>{error.synopsis}</span>}
                 <br></br>
                 <label htmlFor="picture">Entrer la nomination de l'image :</label>
                 <input
@@ -186,52 +201,28 @@ const EditMovie = (props) => {
                     placeholder=" exemple: 1.jpg"
                     onChange={(evt) => handleChangePicture(evt.target.files[0], "picture")}
                 />
-                {error.picture && <span>{error.picture}</span>}
+                {error.movieUrl && <span>{error.movieUrl}</span>}
                 <br></br>
-                <label htmlFor="synopsis">Entrer la description du film :</label>
+                <label htmlFor="information">Entrer les informations relative au personnage :</label>
                 <input
                     type="text"
                     className="form-control"
-                    id="synopsis"
-                    name="synopsis"
-                    value={movie.synopsis}
-                    placeholder=" exemple: Lorem ipsum dolor sit amet"
-                    onChange={(evt) => handleChange(evt)}
-                />
-                {error.synopsis && <span>{error.synopsis}</span>}
-                <br></br>
-                <label htmlFor="movie">Entrer l'url du film :</label>
-                <input
-                    type="url"
-                    className="form-control"
-                    id="movieUrl"
-                    name="movieUrl"
-                    value={movie.movieUrl}
-                    placeholder=" exemple: https://movie-youtube.com"
-                    onChange={(evt) => handleChange(evt)}
-                />
-                {error.movieUrl && <span>{error.movieUrl}</span>}
-                <br></br>
-                <label htmlFor="rating">Entrer une note sur le film :</label>
-                <input
-                    type="number"
-                    className="form-control"
-                    id="rating"
-                    name="rating"
-                    value={movie.rating}
-                    placeholder=" exemple: 2"
+                    id="information"
+                    name="information"
+                    value={character.information}
+                    placeholder=" exemple: information sur le personnage dans la série"
                     onChange={(evt) => handleChange(evt)}
                 />
                 {error.rating && <span>{error.rating}</span>}
                 <br></br>
-                <label htmlFor="slug">Entrer le slug du titre du film :</label>
+                <label htmlFor="slug">Entrer le nom du peronnage sous forme de slug :</label>
                 <input
                     type="text"
                     className="form-control"
                     id="slug"
                     name="slug"
-                    value={movie.slug}
-                    placeholder=" exemple: les-aventures-de-tintin"
+                    value={character.slug}
+                    placeholder=" exemple: allan-thompson"
                     onChange={(evt) => handleChange(evt)}
                 />
                 {error.slug && <span>{error.slug}</span>}
@@ -265,8 +256,8 @@ const mapStateToProps = store => {
 }
 
 const mapDispatchToProps = {
-    loadOneMovieById, userConnected
+    loadOneCharacterById, userConnected
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditMovie)
+export default connect(mapStateToProps, mapDispatchToProps)(EditCharacter)
