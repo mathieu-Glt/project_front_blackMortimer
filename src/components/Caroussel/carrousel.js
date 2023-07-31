@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { loadMovies, loadMoviesFavories, loadMoviesRandom, loadOneMovieById } from '../../actions/movie/movieAction';
 import './caroussel.css'
 import { Button, Card } from 'react-bootstrap';
+import RateMovie from '../RateMovie/ratemovie';
 // import Card from 'react-bootstrap/Card';
 
 function Slider(props) {
@@ -62,6 +63,12 @@ function Slider(props) {
             {movies.movies.map((m, i) => (
             <div className={`${props.theme ? 'card_movie_light' : 'card_movie_dark'}`} key={i}>
             <div className="card_bootstrap" style={{ width: '30rem', margin: 'auto' }}>
+            <div className="star">
+                                <RateMovie
+                                    movie={movie.rating}
+                                />
+                            </div>
+
                 <div
                 className="card_bootstrap_img"
                 // src={process.env.PUBLIC_URL + '/images/black&Mortimer/' + m.picture}

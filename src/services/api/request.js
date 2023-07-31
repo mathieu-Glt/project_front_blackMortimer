@@ -19,6 +19,7 @@ const requests = {
     fetchUploadPicture: `${api_url}/api/movies/upload/picture`,
     postUploadPictureCharacter: `${api_url}/api/characters/upload/picture`,
     postMovieDatabase: `${api_url}/api/movies/add`,
+    postRateMovie: `${api_url}/api/movies/rate`,
     putMovieDatabase: `${api_url}/api/movies/edit/`,
     putCharacterDatabase: `${api_url}/api/characters/edit/`,
     postCharacterDatabase: `${api_url}/api/characters/add`,

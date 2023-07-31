@@ -8,6 +8,8 @@ import { ThemeContext } from '../../context/index';
 import { handleStorage } from '../../utils/handleStorage';
 import axios from 'axios';
 import requests, { api_url } from '../../services/api/request';
+import RateMovie from '../../components/RateMovie/ratemovie';
+
 
 
 const Acceuil = (props) => {
@@ -113,6 +115,12 @@ const Acceuil = (props) => {
                 {movies.movies.map((m, i) => (
                     // <Movie movie={m} />
                     <div className='card_movie_container' key={i}>
+                            <div className="star">
+                                <RateMovie
+                                    movieRate={m.rating}
+                                    movieId={m.id}
+                                />
+                            </div>
 
 
                         <div className="image ">
