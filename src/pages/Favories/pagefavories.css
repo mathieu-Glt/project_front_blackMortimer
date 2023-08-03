@@ -1,6 +1,24 @@
 .title_page_favories {
     text-align: center;
-    background: rgb(75, 190, 17);
+    background: rgb(31, 98, 143);
     margin: 0;
     padding: 3px;
+}
+
+
+.card_movie_container{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    background: rgb(30, 66, 167);
+    color: rgb(0, 0, 0);
+    font-family: cursive;
+    border-radius: 10px;
+    border: 2px solid rgb(14, 6, 6);
+    margin: 10px;
+}
+
+
+.card_movie {
+    background: red;
 }

@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Acceuil from './pages/Acceuil/acceuil';
 import Navigation from './components/Nav/nav';
 import Favories from './pages/Favories/PageFavories';
@@ -31,7 +33,7 @@ export const DataContext = createContext()
 
 
 function App(props) {
-  console.log("🚀 ~ file: App.js:19 ~ App ~ props:", props)
+  console.log("🚀 ~ file: App.js:19 ~ App ~ props:", props.user)
   const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
   console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
   console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
@@ -57,6 +59,8 @@ function App(props) {
   const [author, setAuthor] = useState();
   const [category, setCategory] = useState();
   const [pictures, setPictures] = useState();
+  const [userData, setUserData] = useState('');
+
   const absoluteURL = new URL(window.location.origin)
   async function fetchData(url) {
     try {
@@ -110,6 +114,14 @@ function App(props) {
           break;
         }
       })
+      const userStorage = localStorage.getItem('user');
+      console.log("🚀 ~ file: acceuil.js:36 ~ Acceuil ~ userStorage:", userStorage);
+      const userParse = JSON.parse(userStorage);
+      console.log("🚀 ~ file: acceuil.js:38 ~ Acceuil ~ user:", userParse);
+  
+      setUserData(userParse.email);
+      fetchUser(userData)
+
       
     })
     .catch((error) => {
@@ -117,6 +129,11 @@ function App(props) {
     });
     
   }, [])
+
+  function fetchUser(userData) {
+    props.userShow(userData);
+}        
+
   
   console.log("🚀 ~ file: App.js:55 ~ App ~ category:", category)
   console.log("🚀 ~ file: App.js:54 ~ App ~ author:", author)
@@ -275,6 +292,18 @@ function App(props) {
   return (
     <>
       <div className='App'>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover 
+      />
+
         <Router>
           <Navigation handleSubmitSearchMoviesByCategory={handleSubmitSearchMoviesByCategory} handleSubmitSearchMoviesByQuery={handleSubmitSearchMoviesByQuery} handleSubmitSearchMoviesByAuthor={handleSubmitSearchMoviesByAuthor} />
           

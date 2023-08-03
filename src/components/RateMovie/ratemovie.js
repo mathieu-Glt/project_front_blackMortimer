@@ -10,9 +10,9 @@ import requests from '../../services/api/request';
 
 // composant des notes de chaque film
 function RateMovie(props) {
+    console.log("🚀 ~ file: ratemovie.js:13 ~ RateMovie ~ props:", props)
     // const Component = props.movie.rating ? FavoriteIconFilled : FavoriteIconEmpty;
 
-    console.log(props.movie);
     // console.log(props.movie.rating);
     const stars = Array(5).fill(0);
 
@@ -45,8 +45,10 @@ function RateMovie(props) {
             'user' : userParse.email
         }
 
+        if(token) {
 
-        addRateMovie(datas)
+            addRateMovie(datas)
+        }
 
         async function addRateMovie(datas) {
             console.log('addRateMovie');
@@ -112,7 +114,7 @@ function RateMovie(props) {
                                 marginRight: 10,
                                 cursor: "pointer"
                             }}
-                            color={(hoverValue || currentValue || props.movie) > index ? colors.orange : colors.grey}
+                            color={(hoverValue || currentValue || props.movieRate) > index ? colors.orange : colors.grey}
                             onClick={() => handleClick(index + 1)}
                             onMouseOver={() => handleMouseOver(index + 1)}
                             onMouseLeave={handleMouseLeave}

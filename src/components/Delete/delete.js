@@ -5,10 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { handleStorage } from "../../utils/handleStorage";
 import { connect } from 'react-redux';
 import './delete.css';
+import { toast } from "react-toastify";
 import requests from "../../services/api/request";
-
+import { useApi } from "../../services/AxiosInstance/useApi";
 
 const Delete = (props) => {
+
+    const api = useApi();
+    const navigate = useNavigate();
     console.log("🚀 ~ file: delete.js:9 ~ Delete ~ props:", props)
     const params = useParams();
     console.log(params);
@@ -45,7 +49,7 @@ const Delete = (props) => {
     }, [id])
 
     
-    const HandleDelete = (e) => {
+    async function HandleDelete(e) {
         e.preventDefault();
         console.log("Je suis dans le handleDelete");
         // console.log("L' id du film ou du personnage : ", id);
@@ -55,20 +59,20 @@ const Delete = (props) => {
         console.log("🚀 ~ file: delete.js:55 ~ HandleDelete ~ url:", url)
         if (url === '/movie') {
             console.log("L'url est bien /movie ");
-            axios.delete(requests.deleteMovieDatabase + id , {
-                headers: {
-                    "x-access-token": localStorage.getItem('access_token')
+            const deleteMovie = await api.delete(requests.deleteMovieDatabase + id)
+            .then((deleteMovie) => {
+                console.log("🚀 ~ file: delete.js:64 ~ .then ~ response:", deleteMovie)
+                if(deleteMovie.status === 200) {
+                    toast.success(deleteMovie.data.message, { type: "success", theme: "colored", autoClose: 5000})
+                    setTimeout(() => {
+
+                        navigate('/')
+                    }, 5000)
+
                 }
             })
-            .then((response) => {
-                console.log("🚀 ~ file: delete.js:64 ~ .then ~ response:", response)
-                setTimeout(() => {
-                    window.location.href = "/acceuil"
-                }, 5000)
-            })
             .catch((error) => {
-                console.log("🚀 ~ file: delete.js:67 ~ HandleDelete ~ error:", error)
-                
+                toast.error(error.message, { type: "error", theme: "colored", autoClose: 5000 });                
             })
         } else {
             console.log("L'url est différente ");

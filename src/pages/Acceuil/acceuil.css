@@ -85,7 +85,7 @@
         display: flex;
         justify-content: center;
         padding: 4px;
-        background: black;
+        background: rgb(168, 72, 15);
         width: 500px;
         border-radius: 30px;
         border: 1px solid rgb(14, 6, 6);
@@ -171,7 +171,7 @@
         display: flex;
         flex-wrap: wrap;
         padding: 10px;
-        background: rgb(5, 42, 145);
+        background: rgb(30, 66, 167);
         color: rgb(0, 0, 0);
         font-family: cursive;
         border-radius: 10px;

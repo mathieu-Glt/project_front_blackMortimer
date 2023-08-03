@@ -29,7 +29,8 @@ export function useApi() {
     api.interceptors.request.use((config) => {
         console.log("🚀 ~ file: useApi.js:15 ~ api.interceptors.request.use ~ config:", config);
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('access_token');
+        console.log("🚀 ~ file: useApi.js:33 ~ api.interceptors.request.use ~ token:", token)
         if (token) {
             config.headers['Authorization'] = 'Bearer ' + token;
             console.log("🚀 ~ file: useApi.js:23 ~ api.interceptors.request.use ~ token:", token)

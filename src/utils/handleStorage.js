@@ -27,6 +27,7 @@ export async function handleStorage() {
     .then((response) => {
         console.log("L'utilisateur de la recherche' : ", response);
         const user = response.data.results
+        console.log("🚀 ~ file: handleStorage.js:30 ~ .then ~ user:", user)
         return Promise.resolve(user);
     })
       .catch(err => {

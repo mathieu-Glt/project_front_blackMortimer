@@ -73,11 +73,12 @@ export const loadMoviesBySearch = (searchMovie) => {
 
 
 
-export const loadMoviesFavories = () => {
+export const loadMoviesFavories = (userId) => {
     return function (dispatch) {
+        console.log("🚀 ~ file: movieAction.js:77 ~ loadMoviesFavories ~ userId:", userId)
         const api = useApi();
-
-        api.get(requests.fetchFavoriesMovie)
+        const id = JSON.stringify(userId);
+        api.post(requests.fetchFavoriesMovie, id)
             .then((response) => {
                 console.log(response);
                 dispatch({

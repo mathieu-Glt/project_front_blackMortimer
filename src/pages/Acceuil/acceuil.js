@@ -9,7 +9,8 @@ import { handleStorage } from '../../utils/handleStorage';
 import axios from 'axios';
 import requests, { api_url } from '../../services/api/request';
 import RateMovie from '../../components/RateMovie/ratemovie';
-
+import FavoriteHeart from '../../components/FavoriteHeart/favoriteheart';
+import { userShow } from '../../actions/user/userActions';
 
 
 const Acceuil = (props) => {
@@ -29,13 +30,18 @@ const Acceuil = (props) => {
     const [admin, setAdmin] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [userData, setUserData] = useState('');
+    
+    
+
     
     
     useEffect(() => {
         async function fetchDataUser() {
             try {
                 const user = await handleStorage();
-                console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user.roles)
+                // console.log("🚀 ~ file: acceuil.js:39 ~ fetchDataUser ~ user:", user)
+                // console.log("🚀 ~ file: acceuil.js:40 ~ fetchDataUser ~ user:", user.email)
                 const roles = user.roles;
                 for (const role of roles) {
                     if(role === "ROLE_ADMIN") {
@@ -43,6 +49,13 @@ const Acceuil = (props) => {
                         setIsAdmin(!isAdmin)
                     }
                 }
+                const userStorage = localStorage.getItem('user');
+                console.log("🚀 ~ file: acceuil.js:36 ~ Acceuil ~ userStorage:", userStorage);
+                const userParse = JSON.parse(userStorage);
+                console.log("🚀 ~ file: acceuil.js:38 ~ Acceuil ~ user:", userParse);
+            
+                setUserData(userParse.email);
+                fetchUser(userData)
                 
             } catch (error) {
                 console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
@@ -52,8 +65,14 @@ const Acceuil = (props) => {
         
         fetchDataUser()
         
-    }, [])
+    }, [movies])
     
+    console.log("🚀 ~ file: acceuil.js:61 ~ Acceuil ~ user:", userData)
+    
+function fetchUser(userData) {
+    props.userShow(userData);
+}        
+        
     
     axios.get(requests.fetchImageFolderPublicBack + '64baf1401072c.jpg')
     .then((response) => {
@@ -115,6 +134,9 @@ const Acceuil = (props) => {
                 {movies.movies.map((m, i) => (
                     // <Movie movie={m} />
                     <div className='card_movie_container' key={i}>
+                        <FavoriteHeart 
+                            movie={m}
+                        />
                             <div className="star">
                                 <RateMovie
                                     movieRate={m.rating}
@@ -159,7 +181,7 @@ const mapStateToProps = store => {
 }
 
 const mapDispatchToProps = {
-    loadMovies
+    loadMovies, userShow
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Acceuil)
