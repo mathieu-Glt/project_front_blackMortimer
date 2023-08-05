@@ -47,14 +47,14 @@ function FavoriteHeart(props) {
         console.log("🚀 ~ file: favoriteheart.js:43 ~ postFavoriteMovie ~ movieTitle:", title)
         console.log("🚀 ~ file: favoriteheart.js:33 ~ postFavoriteMovie ~ movieId:", id)
         const movie = {
-            id,
             title
         }
         console.log("🚀 ~ file: favoriteheart.js:38 ~ postFavoriteMovie ~ movie:", movie)
 
         // todo requete axios pour envoyer film en favoris
         
-         const postMovie = await api.post(requests.postMovieFavories, movie)
+         const postMovie = await api.post(requests.postMovieFavories + id, movie)
+        //  console.log("🚀 ~ file: favoriteheart.js:49 ~ postFavoriteMovie ~ postMovie:", postMovie)
          .then((postMovie) => {
             if(postMovie.status === 200) {
                     toast.success(postMovie.data.message, { type: "success", theme: "colored", autoClose: 5000})
@@ -66,11 +66,10 @@ function FavoriteHeart(props) {
          })
          .catch(error => {
             setTimeout(() => {
-                toast.error(postMovie.data.message, { type: "error", theme: "colored", autoClose: 5000})
+                toast.error(error.data.message, { type: "error", theme: "colored", autoClose: 5000})
             }, 3000)
 
          })
-         console.log("🚀 ~ file: favoriteheart.js:49 ~ postFavoriteMovie ~ postMovie:", postMovie)
 
 
         

@@ -15,7 +15,7 @@ import Author from './pages/Author/author';
 import SearchBar from './components/SearchBar/searchBar';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { loadMoviesBySearch } from './actions/movie/movieAction';
+import { loadMovies, loadMoviesBySearch, loadMoviesFavories } from './actions/movie/movieAction';
 import axios from 'axios';
 import requests from './services/api/request';
 import { ThemeContext } from './context';
@@ -30,8 +30,6 @@ import { loadCategories } from './actions/category/categoryActions';
 import AddCharacter from './pages/Characters/AddCharacter';
 import EditCharacter from './pages/Characters/EditCharacter';
 export const DataContext = createContext()
-
-
 function App(props) {
   console.log("🚀 ~ file: App.js:19 ~ App ~ props:", props.user)
   const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
@@ -83,6 +81,8 @@ function App(props) {
   useEffect(() => {
         props.loadAuthorsByNameArtist();
         props.loadCategories();
+       // props.loadMoviesFavories()
+
 
     console.log(' coucou coucou coucou');
     

@@ -9,10 +9,10 @@ export const loadMovies = () => {
     
     return function (dispatch) {
         const api = useApi();
-        // console.log("🚀 ~ file: movieAction.js:93 ~ api:", api)
+        console.log("🚀 ~ file: movieAction.js:93 ~ api:", api)
 
 
-        api.get(requests.fetchAllTintinDatabaseNotUser, {
+        api.get(requests.fetchAllMoviesDatabase, {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': '*'
@@ -20,7 +20,7 @@ export const loadMovies = () => {
             }
         })
             .then((response) => {
-                console.log('Les films de tintin : ', response);
+                console.log("🚀 ~ file: movieAction.js:23 ~ .then ~ response:", response)
                 dispatch({
                     type: LOAD_MOVIES,
                     payload: response.data.results
@@ -74,13 +74,15 @@ export const loadMoviesBySearch = (searchMovie) => {
 
 
 export const loadMoviesFavories = (userId) => {
+    console.log("🚀 ~ file: movieAction.js:77 ~ loadMoviesFavories ~ userId:", userId)
     return function (dispatch) {
-        console.log("🚀 ~ file: movieAction.js:77 ~ loadMoviesFavories ~ userId:", userId)
+        console.log("🚀 ~ file: movieAction.js:79 ~ loadMoviesFavories ~ userId:", userId)
         const api = useApi();
         const id = JSON.stringify(userId);
-        api.post(requests.fetchFavoriesMovie, id)
+        api.post(requests.fetchFavoriesMovie + userId)
             .then((response) => {
                 console.log(response);
+                console.log("🚀 ~ file: movieAction.js:85 ~ .then ~ response:", response)
                 dispatch({
                     type: LOAD_MOVIES_FAVORIES,
                     payload: response.data.results

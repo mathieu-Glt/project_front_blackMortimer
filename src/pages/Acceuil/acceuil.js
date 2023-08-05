@@ -11,18 +11,14 @@ import requests, { api_url } from '../../services/api/request';
 import RateMovie from '../../components/RateMovie/ratemovie';
 import FavoriteHeart from '../../components/FavoriteHeart/favoriteheart';
 import { userShow } from '../../actions/user/userActions';
-
+import { useApi } from '../../services/AxiosInstance/useApi';
 
 const Acceuil = (props) => {
+console.log("🚀 ~ file: acceuil.js:17 ~ Acceuil ~ props:", props)
 
+    const api = useApi();
     const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
-    console.log("🚀 ~ file: acceuil.js:9 ~ Acceuil ~ props:", props)
-    console.log("Les props de acceuil : ", props.movies.movies);
-    console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
-    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
-    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
 
-    // const data = props.movies.movies;
     const { movies } = props;
     const [movie, setMovie] = useState([])
     const [isLoading, setIsLoading] = useState(true);
@@ -30,119 +26,153 @@ const Acceuil = (props) => {
     const [admin, setAdmin] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
-    const [userData, setUserData] = useState('');
-    
-    
 
-    
-    
+
+
+
+
     useEffect(() => {
         async function fetchDataUser() {
             try {
                 const user = await handleStorage();
-                // console.log("🚀 ~ file: acceuil.js:39 ~ fetchDataUser ~ user:", user)
+                console.log("🚀 ~ file: acceuil.js:39 ~ fetchDataUser ~ user:", user)
                 // console.log("🚀 ~ file: acceuil.js:40 ~ fetchDataUser ~ user:", user.email)
                 const roles = user.roles;
                 for (const role of roles) {
-                    if(role === "ROLE_ADMIN") {
+                    if (role === "ROLE_ADMIN") {
                         console.log(role);
                         setIsAdmin(!isAdmin)
                     }
                 }
-                const userStorage = localStorage.getItem('user');
-                console.log("🚀 ~ file: acceuil.js:36 ~ Acceuil ~ userStorage:", userStorage);
-                const userParse = JSON.parse(userStorage);
-                console.log("🚀 ~ file: acceuil.js:38 ~ Acceuil ~ user:", userParse);
-            
-                setUserData(userParse.email);
-                fetchUser(userData)
-                
+
+                if (!user) {
+                    return fetchDatabaseNotUser();
+                } else if (user.roles === 'admin') {
+                    // si utilisateur admin renvoie true et lance la fonction fetchDatabase
+                    setAdmin(!admin)
+                   return fetchDatabaseUser();
+                } else {
+                    // sinon admin false lance la fonction fetchDatabase également
+                    setAdmin(false)
+                    return fetchDatabaseUser();
+                }
+
             } catch (error) {
                 console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
-                
             }
         }
-        
+
         fetchDataUser()
-        
-    }, [movies])
-    
-    console.log("🚀 ~ file: acceuil.js:61 ~ Acceuil ~ user:", userData)
-    
-function fetchUser(userData) {
-    props.userShow(userData);
-}        
-        
-    
-    axios.get(requests.fetchImageFolderPublicBack + '64baf1401072c.jpg')
-    .then((response) => {
-        console.log("🚀 ~ file: acceuil.js:37 ~ .then ~ response:", response)
-        
-        if(!response.ok) {
-            console.log('Image not found')
-        }
-        return response.blob();
-    })
-    .then((blob) => {
-        setImageUrl(URL.createObjectURL(blob));
-    })
-    .catch((err)=>console.log(err))
-    
-    console.log("🚀 ~ file: acceuil.js:30 ~ Acceuil ~ isAdmin:", isAdmin)   
-    
-    
-    useEffect(() => {
-        try {
-            props.loadMovies();
-            setMovie(movies);
-            setTimeout(() => {
 
-                setIsLoading(false);
-            }, 2000)
-
-        } catch (error) {
-            setError(error);
-            setIsLoading(false);
-        }
     }, [])
 
-    if (isLoading) {
-        return <div>Loading movies...</div>
+    // içi fonction qui renvoie les film de tintin avec l'indication de ses films en favoris en envoyant dans la fonction son token 
+    async function fetchDatabaseUser() {
+        try {
+            props.loadMovies()
+           // console.log("🚀 ~ file: acceuil.js:75 ~ fetchDatabaseUser ~ moviesRedux:", moviesRedux)
+            
+            const request = await api.get(requests.fetchAllMoviesDatabase);
+
+            console.log("🚀 ~ file: acceuil.js:82 ~ fetchDatabaseUser ~ request:", request)
+            if(request.status === 200) {
+                setIsLoading(false);
+                setError(null);
+                setMovie(request.data.results)
+            } 
+    
+        } catch (error) {
+            setIsLoading(false);
+            setError(error)
+
+        }
+
     }
 
-    if (error) {
-        return <div>Error : {error.message}</div>
+
+
+    // içi fonction qui renvoie les film de tintin pour les utilisateurs non inscrits ou pas connécté
+    async function fetchDatabaseNotUser() {
+        try {
+            props.loadMovies()
+            console.log('pas de utilisateur !');
+            const request = await axios.get(requests.fetchAllTintinDatabaseNotUser)
+            console.log("🚀 ~ file: acceuil.js:100 ~ fetchDatabaseNotUser ~ request:", request)
+            if(request.status === 200) {
+                setIsLoading(false);
+                setError(null);
+                setMovie(request.data.results)
+            } 
+
+        } catch (error) {
+            setIsLoading(false);
+            setError(error)
+
+        }
 
     }
+
+
+
+
+
+
+    axios.get(requests.fetchImageFolderPublicBack + '64baf1401072c.jpg')
+        .then((response) => {
+            console.log("🚀 ~ file: acceuil.js:37 ~ .then ~ response:", response)
+
+            if (!response.ok) {
+                console.log('Image not found')
+            }
+            return response.blob();
+        })
+        .then((blob) => {
+            setImageUrl(URL.createObjectURL(blob));
+        })
+        .catch((err) => console.log(err))
+
+    console.log("🚀 ~ file: acceuil.js:30 ~ Acceuil ~ isAdmin:", isAdmin)
+
+
+
+     if (isLoading) {
+         return <div>Loading movies...</div>
+     }
+
+     if (error) {
+         return <div>Error : {error.message}</div>
+
+     }
+    console.log("🚀 ~ file: acceuil.js:61 ~ Acceuil ~ movie:", movie)
 
     return (
         <div>
             <h2 className="title_page_acceuil">Page Acceuil</h2>
 
             <section className={`${themeApp ? 'card_movies_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_movie_dark d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}>
-                
-            {isAdmin ? <Link to={`/addmovie`}>
-                <button className=" btn btn-primary ">
-                    Ajouter un film
-                </button>
 
-            </Link> : null}
-<br></br>
+                {isAdmin ? <Link to={`/addmovie`}>
+                    <button className=" btn btn-primary ">
+                        Ajouter un film
+                    </button>
+
+                </Link> : null}
+                <br></br>
                 {console.log("Les datas des movies : ", movies.movies)}
                 {/* {console.log("Les syno des movies : ", props.movies.movies[0].synopsis)}; */}
                 {/* {data.lenght > 0 && <ul> */}
-                {movies.movies.map((m, i) => (
+                {movie.map((m, i) => (
                     // <Movie movie={m} />
                     <div className='card_movie_container' key={i}>
-                        <FavoriteHeart 
+                        <FavoriteHeart
                             movie={m}
                         />
-                            <div className="star">
-                                <RateMovie
-                                    movieRate={m.rating}
-                                    movieId={m.id}
-                                />
-                            </div>
+                        <div className="star">
+                            <RateMovie
+                                movieRate={m.rating}
+                                movieId={m.id}
+                            />
+                        </div>
 
 
                         <div className="image ">
@@ -160,7 +190,7 @@ function fetchUser(userData) {
                     </div>
                 ))}
                 {/* </ul>} */}
-                <img src={`${api_url}/api/movies/images/64baf1401072c.jpg`}/>
+                <img src={`${api_url}/api/movies/images/64baf1401072c.jpg`} />
 
             </section>
         </div>
