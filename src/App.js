@@ -44,6 +44,8 @@ function App(props) {
 
   // booleen pour la gestion de l'affichage du résultat de la barre de recherche
   const [toggleSearchBar, setToggleSearchBar] = useState(false);
+  const [toggleSearchCategory, setToggleSearchCategory] = useState(false);
+  const [toggleSearchAuthor, setToggleSearchAuthor] = useState(false);
   const [userStorage, setUserStorage] = useState([]);
   const [toggleSearch, setToggleSearch] = useState(false);
   const [toggleData, setTogleData] = useState(false);
@@ -205,10 +207,10 @@ function App(props) {
     
   }
   
-  // fonction soumission formulaire recherche titre film se trouvant dans App
+  // fonction soumission formulaire recherche film par auteur
   const handleSubmitSearchMoviesByAuthor = (e, searchAuthors) => {
     console.log(' clic search author');
-    console.log("🚀 ~ file: App.js:20 ~ handleSubmitSearchByAuthor ~ searchAuthors:", searchAuthors)
+    console.log("🚀 ~ file: App.js:213 ~ handleSubmitSearchByAuthor ~ searchAuthors:", searchAuthors)
     e.preventDefault();
     // setCloseSearchBar(true)
     //TODO: creee requête axios ici de recherche film
@@ -231,15 +233,15 @@ function App(props) {
     
     setTimeout(() => {
       // setData(data)
-      setToggleSearchBar(!toggleSearchBar);
+      setToggleSearchAuthor(!toggleSearchAuthor);
     }, 1000)
     
     
   }
   
-  // fonction soumission formulaire recherche titre film se trouvant dans App
+  // fonction soumission formulaire recherche catégorie film 
   const handleSubmitSearchMoviesByCategory = (e, searchCategorie) => {
-    console.log(' clic search author');
+    console.log(' clic search category');
     console.log("🚀 ~ file: App.js:20 ~ handleSubmitSearchByAuthor ~ searchAuthors:", searchCategorie)
     e.preventDefault();
     // setCloseSearchBar(true)
@@ -251,7 +253,7 @@ function App(props) {
       }
     })
     .then((response) => {
-      console.log('Les films de la recherche pour auteur : ', response.data.results);
+      console.log('Les films de la recherche pour catégorie : ', response.data.results);
       setMoviesByCategory(response.data.results)
     })
     .catch(err => console.log(err))
@@ -263,7 +265,7 @@ function App(props) {
     
     setTimeout(() => {
       // setData(data)
-      setToggleSearchBar(!toggleSearchBar);
+      setToggleSearchCategory(!toggleSearchCategory);
     }, 1000)
     
     
@@ -271,7 +273,7 @@ function App(props) {
   
   
   
-  // fonction pour fermer l'affichage de la recherche
+  // fonction pour fermer l'affichage de la recherche query
   const handleClickSearchClose = (e) => {
     e.preventDefault();
     setToggleSearchBar(!toggleSearchBar);
@@ -282,9 +284,31 @@ function App(props) {
     
   }
 
+  // fonction pour fermer l'affichage de la recherchepar catégorie
+  const handleClickSearchCloseCategory = (e) => {
+    e.preventDefault();
+    setToggleSearchCategory(!toggleSearchCategory);
+    // on redirige vers l'acceuil
+    // windows.location.href("/")
+    
+    
+    
+  }
+
+  // fonction pour fermer l'affichage de la recherchepar auteur
+  const handleClickSearchCloseAuthor = (e) => {
+    e.preventDefault();
+    setToggleSearchAuthor(!toggleSearchAuthor);
+    // on redirige vers l'acceuil
+    // windows.location.href("/")
+    
+    
+    
+  }
+
   console.log(' le résultat de App pour la recherche film : ', movies);
   console.log(' le résultat de App pour la recherche film par auteur : ', moviesByAuthor);
-  console.log(' le résultat de App pour la recherche film par auteur : ', moviesByCategory);
+  console.log(' le résultat de App pour la recherche film par catégorie : ', moviesByCategory);
   
   console.log("🚀 ~ file: App.js:59 ~ App ~ pictures:", pictures)
   
@@ -345,13 +369,13 @@ function App(props) {
           </div>
 
           {/* recherche film par auteur  */}
-          <div className={`${toggleSearchBar ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
-            <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+          <div className={`${toggleSearchAuthor ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
+            <div className={`${toggleSearchAuthor ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
               <div className='results_search'>
                 <h5 className='title_button_close_searchbar'>Résultat de la recherche
-                  <button className='button_close_results_searchbar' onClick={handleClickSearchClose}>Close</button>
+                  <button className='button_close_results_searchbar' onClick={handleClickSearchCloseAuthor}>Close</button>
                 </h5>
-                <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+                <div className={`${toggleSearchAuthor ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
                   {moviesByAuthor.map((m, i) => (
                     <div className='card_movie_container ' key={i}>
 
@@ -376,13 +400,13 @@ function App(props) {
           </div>
 
             {/* recherche film par categorie  */}
-            <div className={`${toggleSearchBar ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
-            <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+            <div className={`${toggleSearchCategory ? 'close_search_movie_By_Category' : 'close_search_movie_transparent_By_Category'}`}>
+            <div className={`${toggleSearchCategory ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
               <div className='results_search'>
                 <h5 className='title_button_close_searchbar'>Résultat de la recherche
-                  <button className='button_close_results_searchbar' onClick={handleClickSearchClose}>Close</button>
+                  <button className='button_close_results_searchbar' onClick={handleClickSearchCloseCategory}>Close</button>
                 </h5>
-                <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+                <div className={`${toggleSearchCategory ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
                   {moviesByCategory.map((m, i) => (
                     <div className='card_movie_container ' key={i}>
 

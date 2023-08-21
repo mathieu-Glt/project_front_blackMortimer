@@ -135,6 +135,32 @@
   opacity: 1;
 }
 
+.close_search_movie_transparent_By_Author {
+  display: block;
+  transition: all 1.5s ease;
+  opacity: 0;
+
+}
+.close_search_movie_transparent_By_Category {
+  display: block;
+  transition: all 1.5s ease;
+  opacity: 0;
+
+}
+/* close_search_movie_By_Category */
+
+.close_search_movie_By_Author {
+  display: block;
+  transition: all 1.5s ease;
+  opacity: 1;
+}
+
+.close_search_movie_By_Category {
+  display: block;
+  transition: all 1.5s ease;
+  opacity: 1;
+}
+
 .results_search {
   display: flex; 
   flex-direction: column;
