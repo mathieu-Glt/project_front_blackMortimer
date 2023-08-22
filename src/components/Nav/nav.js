@@ -24,7 +24,9 @@ import { createTheme } from '@mui/material/styles';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import requests from '../../services/api/request';
-
+import { loadBasket } from '../../actions/basket/basketActions';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import Cart from '../Cart/cart';
 
 const theme = createTheme({
     palette: {
@@ -61,6 +63,7 @@ function Navigation(props) {
     useEffect(() => {
         async function fetchDataUser() {
             try {
+                props.loadBasket();
                 const user = await handleStorage();
                 console.log("🚀 ~ file: nav.js:7 ~ handleStorage ~ user:", user)
                 setToggleUserIcon(!toggleUserIcon)
@@ -117,6 +120,7 @@ function Navigation(props) {
                     <Navbar.Brand href="/"><LogoNavigation /></Navbar.Brand>
                     {toggleUserIcon ? <PersonIcon color='success' className='person_icon' /> : null}
                     {toggleUserIcon ? <LogoutIcon theme={theme} className='person_icon' onClick={logout} /> : null}
+                    <Cart />
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
@@ -160,13 +164,15 @@ const mapStateToProps = store => {
         auth: store.auth,
         user: store.user,
         authors: store.authors,
-        categories: store.categories
+        categories: store.categories,
+        basket: store.basket
+
 
     }
 }
 
 const mapDispatchToProps = {
-    loadAuthors, loadAuthorsByNameArtist, loadCategories
+    loadAuthors, loadAuthorsByNameArtist, loadCategories, loadBasket
 }
 
 

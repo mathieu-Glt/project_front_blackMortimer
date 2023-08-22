@@ -49,6 +49,28 @@ const CharacterId = (props) => {
     }, [id])
 
     console.log("🚀 ~ file: EditMovie.js:17 ~ EditMovie ~ isAdmin:", isAdmin)
+    async function  addCharacterBasket(data) {
+        console.log("🚀 ~ file: characterById.js:53 ~ addCharacterBasket ~ data:", data)
+        
+    let characterRegistredInLocalStorage = JSON.parse(localStorage.getItem("character"))
+        
+    if (characterRegistredInLocalStorage) {
+
+        characterRegistredInLocalStorage.push(data)
+        localStorage.setItem("character", JSON.stringify(characterRegistredInLocalStorage))
+
+    } else {
+        characterRegistredInLocalStorage = [];
+        characterRegistredInLocalStorage.push(data)
+        localStorage.setItem("character", JSON.stringify(characterRegistredInLocalStorage))
+        
+    }
+
+    
+    
+    
+    
+}
 
 
 
@@ -72,6 +94,10 @@ const CharacterId = (props) => {
                             </button>
                         </Link>
                         {isAdmin ? <Delete /> : null}
+                        <button className=" btn btn-danger " onClick={() => addCharacterBasket(data)}>
+                            Pannier
+                        </button>
+
 
                     </div>
                 </div>

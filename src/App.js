@@ -29,6 +29,7 @@ import { loadAuthorsByNameArtist } from './actions/author/authorActions';
 import { loadCategories } from './actions/category/categoryActions';
 import AddCharacter from './pages/Characters/AddCharacter';
 import EditCharacter from './pages/Characters/EditCharacter';
+import Basket from './pages/Basket/basket';
 export const DataContext = createContext()
 function App(props) {
   console.log("🚀 ~ file: App.js:19 ~ App ~ props:", props.user)
@@ -458,6 +459,7 @@ function App(props) {
             <Route path="/editcharacter/:id" element={<EditCharacter />} />
             <Route path="/movie/:id" element={<MovieId />} />
             <Route path="/addmovie" element={<AddMovie />} />
+            <Route path='/basket' element={<Basket /> } />
             <Route path="/addcharacter" element={<AddCharacter />} />
             <Route path="/character/:id" element={<CharacterById />} />
             <Route path="/register" element={<Register />} />

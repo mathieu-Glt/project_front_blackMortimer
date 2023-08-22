@@ -6,7 +6,7 @@ import characterReducer from "./characterReducer";
 import authorReducer from "./authorReducer";
 import categoryReducer from "./categoryReducer";
 import auteurReducer from "./auteurReducer";
-
+import basketReducer from "./basketReducer";
 
 const rootReducers = combineReducers({
     movies: movieReducer,
@@ -15,7 +15,8 @@ const rootReducers = combineReducers({
     characters: characterReducer,
     authors: authorReducer,
     categories: categoryReducer,
-    auteurs: auteurReducer
+    auteurs: auteurReducer,
+    basket: basketReducer
     
 })
 

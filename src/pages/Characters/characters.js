@@ -6,6 +6,10 @@ import { loadMovies } from '../../actions/movie/movieAction';
 import { loadCharacters } from '../../actions/character/characterActions';
 import { useContext } from 'react'
 import { ThemeContext } from '../../context/index';
+import { loadBasket } from '../../actions/basket/basketActions';
+import { useLocalStorage } from '../../utils/useLocalStorage.ts';
+import requests from '../../services/api/request';
+import axios from 'axios';
 
 
 
@@ -22,22 +26,25 @@ const Character = (props) => {
     const [character, setCharacter] = useState([])
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
-
+    
+    
+    
     useEffect(() => {
         try {
             props.loadCharacters();
+            props.loadBasket();
             setCharacter(characters);
             setTimeout(() => {
-
+                
                 setIsLoading(false);
             }, 2000)
-
+            
         } catch (error) {
             setError(error);
             setIsLoading(false);
         }
     }, [])
+    
 
     if (isLoading) {
         return <div>Loading characters...</div>
@@ -58,7 +65,7 @@ const Character = (props) => {
 
                 <Link to={`/addcharacter`}>
                     <button className=" btn btn-primary ">
-                        Ajouter un peronnage
+                        Créer un peronnage
                     </button>
 
                 </Link>
@@ -79,6 +86,7 @@ const Character = (props) => {
                             </button>
 
                         </Link>
+
                     </div>
                 ))}
                 {/* </ul>} */}
@@ -94,12 +102,15 @@ const mapStateToProps = store => {
         movies: store.movies,
         characters: store.characters,
         auth: store.auth,
-        user: store.user
+        user: store.user,
+        basket: store.basket
     }
 }
 
 const mapDispatchToProps = {
-    loadMovies, loadCharacters
+    loadCharacters, 
+    loadBasket
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Character)
