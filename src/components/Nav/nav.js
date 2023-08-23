@@ -120,7 +120,7 @@ function Navigation(props) {
                     <Navbar.Brand href="/"><LogoNavigation /></Navbar.Brand>
                     {toggleUserIcon ? <PersonIcon color='success' className='person_icon' /> : null}
                     {toggleUserIcon ? <LogoutIcon theme={theme} className='person_icon' onClick={logout} /> : null}
-                    <Cart />
+                    <Link to={'/basket'}><Cart /></Link>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">

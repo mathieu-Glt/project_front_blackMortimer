@@ -17,8 +17,8 @@ const Cart = (props) => {
     let index = 0;
 
     const { basket } = props
-    console.log("🚀 ~ file: cart.js:20 ~ Cart ~ basket:", basket.basket)
-    console.log("🚀 ~ file: cart.js:21 ~ Cart ~ basket:", basket.basket.length);
+    // console.log("🚀 ~ file: cart.js:20 ~ Cart ~ basket:", basket.basket)
+    // console.log("🚀 ~ file: cart.js:21 ~ Cart ~ basket:", basket.basket.length);
 
     useEffect(() => {
         try {
@@ -29,14 +29,16 @@ const Cart = (props) => {
         }
     }, [])
 
-
-    for (let i = 0; i < basket.length + 1; i++) {
-        console.log("🚀 ~ file: cart.js:23 ~ Cart ~ i:", i)
-
-        index = i;
-
-
+    if(basket.basket === null) {
+        basket.basket = index
     }
+    // for (let i = 0; i < basket.length + 1; i++) {
+    //     console.log("🚀 ~ file: cart.js:23 ~ Cart ~ i:", i)
+
+    //     index = i;
+
+
+    // }
 
 
     return (
@@ -44,8 +46,12 @@ const Cart = (props) => {
             <div className='d-flex flex-row'>
                 {/* {basket.map((b, i) => (
                 ))} */}
-                <h1 className='bg-white border rounded-circle p-1 text-dark'>{basket.basket.length}</h1>
+                
+                { basket.basket.length ? <h1 className='bg-white border rounded-circle p-1 text-dark'>{basket.basket.length}</h1>
+                : <h1 className='bg-white border rounded-circle p-1 text-dark'>{index}</h1>
+                 }
                 <ShoppingBasketIcon />
+                
             </div>
 
         </>

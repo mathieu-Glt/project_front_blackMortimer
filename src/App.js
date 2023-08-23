@@ -31,6 +31,8 @@ import AddCharacter from './pages/Characters/AddCharacter';
 import EditCharacter from './pages/Characters/EditCharacter';
 import Basket from './pages/Basket/basket';
 export const DataContext = createContext()
+
+
 function App(props) {
   console.log("🚀 ~ file: App.js:19 ~ App ~ props:", props.user)
   const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
