@@ -11,7 +11,7 @@ import { useApi } from "../../services/AxiosInstance/useApi";
 import RateMovie from '../../components/RateMovie/ratemovie';
 import FavoriteHeart from '../../components/FavoriteHeart/favoriteheart';
 import { useContext } from 'react'
-import { ThemeContext } from '../../context/index';
+import { ThemeContext } from '../../context/themeContext';
 import { toast } from "react-toastify";
 
 

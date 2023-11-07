@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { loadMovies } from '../../actions/movie/movieAction';
 import { loadCharacters } from '../../actions/character/characterActions';
 import { useContext } from 'react'
-import { ThemeContext } from '../../context/index';
+import { ThemeContext } from '../../context/themeContext';
 import { loadBasket } from '../../actions/basket/basketActions';
 import { useLocalStorage } from '../../utils/useLocalStorage.ts';
 import requests from '../../services/api/request';

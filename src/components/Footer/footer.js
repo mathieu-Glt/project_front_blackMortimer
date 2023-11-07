@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useContext } from 'react'
-import { ThemeContext } from '../../context'
+import { ThemeContext } from '../../context/themeContext'
 import Button from 'react-bootstrap/Button';
 
 
@@ -23,8 +23,8 @@ const NightModeButton = styled.button`
 function Footer(props) {
     console.log("🚀 ~ file: footer.js:23 ~ Footer ~ props:", props)
 
-    const { theme, toggleTheme } = useContext(ThemeContext)
-    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme, toggleTheme)
+    // const { theme, toggleTheme } = useContext(ThemeContext)
+    // console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme, toggleTheme)
 
 
     return (
@@ -33,7 +33,7 @@ function Footer(props) {
 
 
             <div >
-                <Button onClick={() => toggleTheme()}>Changer de mode : {theme === 'light' ? '☀️' : '🌙'}</Button>
+                {/* <Button onClick={() => toggleTheme()}>Changer de mode : {theme === 'light' ? '☀️' : '🌙'}</Button> */}
             </div>
         </>
     )

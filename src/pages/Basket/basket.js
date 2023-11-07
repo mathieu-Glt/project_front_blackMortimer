@@ -3,7 +3,7 @@ import './basket.css';
 import { Link, useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import { useContext } from 'react'
-import { ThemeContext } from '../../context/index';
+import { ThemeContext } from '../../context/themeContext';
 import axios from 'axios';
 import requests from '../../services/api/request';
 import RateMovie from '../../components/RateMovie/ratemovie';

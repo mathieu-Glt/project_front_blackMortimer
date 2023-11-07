@@ -6,16 +6,20 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
 import 'bootstrap/dist/css/bootstrap.css';
-import ThemeProvider from './context/index';
+import ThemeProvider from './context/themeContext';
+import { UserProvider } from './context/userContext';
 
+ 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <ThemeProvider>
+    {/* <ThemeProvider> */}
+    <UserProvider>
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </ThemeProvider>
+    </UserProvider>
+    {/* </ThemeProvider> */}
   </Provider>
 );
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { loadMovies } from '../../actions/movie/movieAction';
 import { useContext } from 'react'
-import { ThemeContext } from '../../context/index';
+import { ThemeContext } from '../../context/themeContext';
 import { handleStorage } from '../../utils/handleStorage';
 import axios from 'axios';
 import requests, { api_url } from '../../services/api/request';
@@ -12,12 +12,16 @@ import RateMovie from '../../components/RateMovie/ratemovie';
 import FavoriteHeart from '../../components/FavoriteHeart/favoriteheart';
 import { userShow } from '../../actions/user/userActions';
 import { useApi } from '../../services/AxiosInstance/useApi';
+import { UserContext } from '../../context/userContext';
 
 const Acceuil = (props) => {
 console.log("🚀 ~ file: acceuil.js:17 ~ Acceuil ~ props:", props)
 
     const api = useApi();
-    const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
+    const { userParse, token } = useContext(UserContext);
+    console.log("🚀 ~ file: acceuil.js:24 ~ Acceuil ~ token:", token)
+    console.log("🚀 ~ file: acceuil.js:25 ~ Acceuil ~ userParse:", userParse)
+    // const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
 
     const { movies } = props;
     const [movie, setMovie] = useState([])
@@ -33,33 +37,31 @@ console.log("🚀 ~ file: acceuil.js:17 ~ Acceuil ~ props:", props)
 
     useEffect(() => {
         async function fetchDataUser() {
-            try {
-                const user = await handleStorage();
-                console.log("🚀 ~ file: acceuil.js:39 ~ fetchDataUser ~ user:", user)
-                // console.log("🚀 ~ file: acceuil.js:40 ~ fetchDataUser ~ user:", user.email)
-                const roles = user.roles;
-                for (const role of roles) {
-                    if (role === "ROLE_ADMIN") {
-                        console.log(role);
-                        setIsAdmin(!isAdmin)
-                    }
-                }
+        //     try {
+        //         const user = await handleStorage();
+        //         console.log("🚀 ~ file: acceuil.js:39 ~ fetchDataUser ~ user:", user)
+        //         // console.log("🚀 ~ file: acceuil.js:40 ~ fetchDataUser ~ user:", user.email)
+        //         const roles = user.roles;
+        //         for (const role of roles) {
+        //             if (role === "ROLE_ADMIN") {
+        //                 console.log(role);
+        //                 setIsAdmin(!isAdmin)
+        //             }
+        //         }
 
-                if (!user) {
-                    return fetchDatabaseNotUser();
-                } else if (user.roles === 'admin') {
-                    // si utilisateur admin renvoie true et lance la fonction fetchDatabase
-                    setAdmin(!admin)
+        //         if (!user) {
+        //             return fetchDatabaseNotUser();
+        //             setAdmin(false)
+
+        //         } else if (user.roles === 'admin') {
+        //             // si utilisateur admin renvoie true et lance la fonction fetchDatabase
+        //             setAdmin(!admin)
                    return fetchDatabaseUser();
-                } else {
-                    // sinon admin false lance la fonction fetchDatabase également
-                    setAdmin(false)
-                    return fetchDatabaseUser();
-                }
+        //         } 
 
-            } catch (error) {
-                console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
-            }
+        //     } catch (error) {
+        //         console.log("🚀 ~ file: nav.js:39 ~ handleStorage ~ error:", error)
+        //     }
         }
 
         fetchDataUser()
@@ -70,7 +72,6 @@ console.log("🚀 ~ file: acceuil.js:17 ~ Acceuil ~ props:", props)
     async function fetchDatabaseUser() {
         try {
             props.loadMovies()
-           // console.log("🚀 ~ file: acceuil.js:75 ~ fetchDatabaseUser ~ moviesRedux:", moviesRedux)
             
             const request = await api.get(requests.fetchAllMoviesDatabase);
 
@@ -87,6 +88,8 @@ console.log("🚀 ~ file: acceuil.js:17 ~ Acceuil ~ props:", props)
 
         }
 
+        fetchDatabaseUser()
+
     }
 
 
@@ -94,7 +97,7 @@ console.log("🚀 ~ file: acceuil.js:17 ~ Acceuil ~ props:", props)
     // içi fonction qui renvoie les film de tintin pour les utilisateurs non inscrits ou pas connécté
     async function fetchDatabaseNotUser() {
         try {
-            props.loadMovies()
+            // props.loadMovies()
             console.log('pas de utilisateur !');
             const request = await axios.get(requests.fetchAllTintinDatabaseNotUser)
             console.log("🚀 ~ file: acceuil.js:100 ~ fetchDatabaseNotUser ~ request:", request)
@@ -149,7 +152,8 @@ console.log("🚀 ~ file: acceuil.js:17 ~ Acceuil ~ props:", props)
         <div>
             <h2 className="title_page_acceuil">Page Acceuil</h2>
 
-            <section className={`${themeApp ? 'card_movies_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_movie_dark d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}>
+            {/* <section className={`${themeApp ? 'card_movies_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_movie_dark d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}> */}
+            <section>
 
                 {isAdmin ? <Link to={`/addmovie`}>
                     <button className=" btn btn-primary ">

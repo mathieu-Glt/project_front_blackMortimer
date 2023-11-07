@@ -89,7 +89,6 @@ const Login = (props) => {
                     lastname: userShow.data.results[0].lastname,
                     roles: userShow.data.results[0].roles,
                     username: userShow.data.results[0].username
-
                 }
                 // const userStorageStringify = JSON.stringify(userStorage)
                 setStoreUser(userStorage);

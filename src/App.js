@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { loadMovies, loadMoviesBySearch, loadMoviesFavories } from './actions/movie/movieAction';
 import axios from 'axios';
 import requests from './services/api/request';
-import { ThemeContext } from './context';
+import { ThemeContext } from './context/themeContext';
 import Footer from './components/Footer/footer';
 import { useContext } from 'react'
 import React, { createContext } from 'react';
@@ -30,15 +30,27 @@ import { loadCategories } from './actions/category/categoryActions';
 import AddCharacter from './pages/Characters/AddCharacter';
 import EditCharacter from './pages/Characters/EditCharacter';
 import Basket from './pages/Basket/basket';
+import PrivateRoutes from './utils/PrivateRoute';
 export const DataContext = createContext()
+
+// const token = localStorage.getItem('access_token');
+// const user = localStorage.getItem('user');
+// const userParse = JSON.parse(user);
+
+
+// export const UserContext = React.createContext({
+//   userParse,
+//   token
+// })
 
 
 function App(props) {
+
   console.log("🚀 ~ file: App.js:19 ~ App ~ props:", props.user)
-  const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
-  console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
-  console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
-  console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
+  // const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
+  // console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
+  // console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
+  // console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
 
 
 
@@ -77,88 +89,88 @@ function App(props) {
       throw error;
     }
   }
-  
+
   const urlCategories = requests.fetchAllCategories;
   const urlAuthor = requests.fetchAllAuthorsByNameArtist;
-  
 
-  
+
+
   useEffect(() => {
-        props.loadAuthorsByNameArtist();
-        props.loadCategories();
-       // props.loadMoviesFavories()
+    props.loadAuthorsByNameArtist();
+    props.loadCategories();
+    // props.loadMoviesFavories()
 
 
     console.log(' coucou coucou coucou');
-    
-    Promise.allSettled([fetchData(urlAuthor), fetchData(urlCategories)])
-    .then((response) => {
-      console.log("🚀 ~ file: App.js:82 ~ .then ~ response:", response)
-      
-      response.forEach((result, index) => {
-        switch(result.status) {
-          case 'fulfilled':
-            if(index === 0) {
-              setAuthor(result.value.results)
-              console.log('Le résultat pour author : ', result);
-            } else {
-              setCategory(result.value.results)
-              console.log('Le résultat pour category : ', result);
-            }
-          break;
-          case 'rejected':
-            if(result.reason) {
-              console.log(result.reason);
-              props.loadAuthorsByNameArtist();
-            } else {
-              console.log(result.reason);
-            }
-          break;
-        default:
-          console.log('erreur');
-          break;
-        }
-      })
-      const userStorage = localStorage.getItem('user');
-      console.log("🚀 ~ file: acceuil.js:36 ~ Acceuil ~ userStorage:", userStorage);
-      const userParse = JSON.parse(userStorage);
-      console.log("🚀 ~ file: acceuil.js:38 ~ Acceuil ~ user:", userParse);
-  
-      setUserData(userParse.email);
-      fetchUser(userData)
 
-      
-    })
-    .catch((error) => {
-      console.log('Error during occured while executing the query');
-    });
-    
+    Promise.allSettled([fetchData(urlAuthor), fetchData(urlCategories)])
+      .then((response) => {
+        console.log("🚀 ~ file: App.js:82 ~ .then ~ response:", response)
+
+        response.forEach((result, index) => {
+          switch (result.status) {
+            case 'fulfilled':
+              if (index === 0) {
+                setAuthor(result.value.results)
+                console.log('Le résultat pour author : ', result);
+              } else {
+                setCategory(result.value.results)
+                console.log('Le résultat pour category : ', result);
+              }
+              break;
+            case 'rejected':
+              if (result.reason) {
+                console.log(result.reason);
+                props.loadAuthorsByNameArtist();
+              } else {
+                console.log(result.reason);
+              }
+              break;
+            default:
+              console.log('erreur');
+              break;
+          }
+        })
+        const userStorage = localStorage.getItem('user');
+        console.log("🚀 ~ file: acceuil.js:36 ~ Acceuil ~ userStorage:", userStorage);
+        const userParse = JSON.parse(userStorage);
+        console.log("🚀 ~ file: acceuil.js:38 ~ Acceuil ~ user:", userParse);
+
+        setUserData(userParse.email);
+        fetchUser(userData)
+
+
+      })
+      .catch((error) => {
+        console.log('Error during occured while executing the query');
+      });
+
   }, [])
 
   function fetchUser(userData) {
     props.userShow(userData);
-}        
+  }
 
-  
+
   console.log("🚀 ~ file: App.js:55 ~ App ~ category:", category)
   console.log("🚀 ~ file: App.js:54 ~ App ~ author:", author)
-  
+
   useEffect(() => {
-    async function fetchDataUser(){
+    async function fetchDataUser() {
       try {
         const user = await handleStorage();
         console.log("🚀 ~ file: App.js:57 ~ handleStorage ~ user:", user)
       } catch (error) {
         console.log("🚀 ~ file: App.js:59 ~ handleStorage ~ error:", error)
-        
+
       }
     }
-    
-    
+
+
 
     fetchDataUser()
   }, [])
-  
+
 
   useEffect(() => {
     async function fetchPictures() {
@@ -168,14 +180,14 @@ function App(props) {
         setPictures(pictures.data.results)
       } catch (error) {
         console.log("🚀 ~ file: App.js:162 ~ fetchPicutres ~ error:", error)
-        
+
       }
     }
     fetchPictures();
   }, [])
 
 
-  
+
   // fonction soumission formulaire recherche titre film se trouvant dans App
   const handleSubmitSearchMoviesByQuery = (e, searchMovie) => {
     console.log(' clic search movie');
@@ -190,26 +202,26 @@ function App(props) {
         'Access-Control-Allow-Methods': '*'
       }
     })
-    .then((response) => {
-      console.log('Les films de la recherche : ', response.data.results);
-      setMovies(response.data.results)
-    })
-    .catch(err => console.log(err))
+      .then((response) => {
+        console.log('Les films de la recherche : ', response.data.results);
+        setMovies(response.data.results)
+      })
+      .catch(err => console.log(err))
 
     setTimeout(() => {
       setResultSearchMovie(movies);
       setTogleData(!toggleData);
     }, 1000)
-    
+
     setTimeout(() => {
       // setData(data)
       setToggleSearchBar(!toggleSearchBar);
     }, 1000)
-    
-    
-    
+
+
+
   }
-  
+
   // fonction soumission formulaire recherche film par auteur
   const handleSubmitSearchMoviesByAuthor = (e, searchAuthors) => {
     console.log(' clic search author');
@@ -223,25 +235,25 @@ function App(props) {
         'Access-Control-Allow-Methods': '*'
       }
     })
-    .then((response) => {
-      console.log('Les films de la recherche pour auteur : ', response.data.results);
-      setMoviesByAuthor(response.data.results)
-    })
-    .catch(err => console.log(err))
-    
+      .then((response) => {
+        console.log('Les films de la recherche pour auteur : ', response.data.results);
+        setMoviesByAuthor(response.data.results)
+      })
+      .catch(err => console.log(err))
+
     setTimeout(() => {
       setResultSearchMovieByAuthor(moviesByAuthor);
       setTogleData(!toggleData);
     }, 1000)
-    
+
     setTimeout(() => {
       // setData(data)
       setToggleSearchAuthor(!toggleSearchAuthor);
     }, 1000)
-    
-    
+
+
   }
-  
+
   // fonction soumission formulaire recherche catégorie film 
   const handleSubmitSearchMoviesByCategory = (e, searchCategorie) => {
     console.log(' clic search category');
@@ -255,36 +267,36 @@ function App(props) {
         'Access-Control-Allow-Methods': '*'
       }
     })
-    .then((response) => {
-      console.log('Les films de la recherche pour catégorie : ', response.data.results);
-      setMoviesByCategory(response.data.results)
-    })
-    .catch(err => console.log(err))
-    
+      .then((response) => {
+        console.log('Les films de la recherche pour catégorie : ', response.data.results);
+        setMoviesByCategory(response.data.results)
+      })
+      .catch(err => console.log(err))
+
     setTimeout(() => {
       setResultSearchMovieByCategory(moviesByCategory);
       setTogleData(!toggleData);
     }, 1000)
-    
+
     setTimeout(() => {
       // setData(data)
       setToggleSearchCategory(!toggleSearchCategory);
     }, 1000)
-    
-    
+
+
   }
-  
-  
-  
+
+
+
   // fonction pour fermer l'affichage de la recherche query
   const handleClickSearchClose = (e) => {
     e.preventDefault();
     setToggleSearchBar(!toggleSearchBar);
     // on redirige vers l'acceuil
     // windows.location.href("/")
-    
-    
-    
+
+
+
   }
 
   // fonction pour fermer l'affichage de la recherchepar catégorie
@@ -293,9 +305,9 @@ function App(props) {
     setToggleSearchCategory(!toggleSearchCategory);
     // on redirige vers l'acceuil
     // windows.location.href("/")
-    
-    
-    
+
+
+
   }
 
   // fonction pour fermer l'affichage de la recherchepar auteur
@@ -304,140 +316,144 @@ function App(props) {
     setToggleSearchAuthor(!toggleSearchAuthor);
     // on redirige vers l'acceuil
     // windows.location.href("/")
-    
-    
-    
+
+
+
   }
+  console.log("Voici l'object windows : ", window.localStorage);
+  // console.log("Voici l'object windows : ", window);
 
   console.log(' le résultat de App pour la recherche film : ', movies);
   console.log(' le résultat de App pour la recherche film par auteur : ', moviesByAuthor);
   console.log(' le résultat de App pour la recherche film par catégorie : ', moviesByCategory);
-  
+
   console.log("🚀 ~ file: App.js:59 ~ App ~ pictures:", pictures)
-  
-  
+
+
   return (
     <>
       <div className='App'>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover 
-      />
+        {/* <UserContext.Provider value={{ userParse, token }}> */}
 
-        <Router>
-          <Navigation handleSubmitSearchMoviesByCategory={handleSubmitSearchMoviesByCategory} handleSubmitSearchMoviesByQuery={handleSubmitSearchMoviesByQuery} handleSubmitSearchMoviesByAuthor={handleSubmitSearchMoviesByAuthor} />
-          
-          {/* recherche film par query */}
-          {pictures && pictures.map((p, i) => (
-          <img src={"C:/Users/mathi/Documents/back-tintin-symfony" + p.substring(63)}/>
-          ))}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
 
-          <div className={`${toggleSearchBar ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
-            <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
-              <div className='results_search'>
-                <h5 className='title_button_close_searchbar'>Résultat de la recherche
-                  <button className='button_close_results_searchbar' onClick={handleClickSearchClose}>Close</button>
-                </h5>
+          <Router>
+            <Navigation handleSubmitSearchMoviesByCategory={handleSubmitSearchMoviesByCategory} handleSubmitSearchMoviesByQuery={handleSubmitSearchMoviesByQuery} handleSubmitSearchMoviesByAuthor={handleSubmitSearchMoviesByAuthor} />
 
-                <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
-                  {movies.map((m, i) => (
-                    <div className='card_movie_container ' key={i}>
+            {/* recherche film par query */}
+            {pictures && pictures.map((p, i) => (
+              <img src={"C:/Users/mathi/Documents/back-tintin-symfony" + p.substring(63)} />
+            ))}
+
+            <div className={`${toggleSearchBar ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
+              <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+                <div className='results_search'>
+                  <h5 className='title_button_close_searchbar'>Résultat de la recherche
+                    <button className='button_close_results_searchbar' onClick={handleClickSearchClose}>Close</button>
+                  </h5>
+
+                  <div className={`${toggleSearchBar ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+                    {movies.map((m, i) => (
+                      <div className='card_movie_container ' key={i}>
 
 
-                      <div className="image ">
-                        <img className="image_database_acceuil" alt="B&M" src={process.env.PUBLIC_URL + '/images/black&Mortimer/' + m.picture} />
+                        <div className="image ">
+                          <img className="image_database_acceuil" alt="B&M" src={process.env.PUBLIC_URL + '/images/black&Mortimer/' + m.picture} />
+                        </div>
+
+
+                        <h4 className='bg-info'>{m.title}</h4>
+                        <p>{m.synopsis.substring(0, 489)}...</p>
+                        <button className="card_button_acceuil_details btn btn-primary ">
+                          Plus
+                        </button>
+
                       </div>
 
-
-                      <h4 className='bg-info'>{m.title}</h4>
-                      <p>{m.synopsis.substring(0, 489)}...</p>
-                      <button className="card_button_acceuil_details btn btn-primary ">
-                        Plus
-                      </button>
-
-                    </div>
-
-                  ))}
+                    ))}
+                  </div>
                 </div>
+
               </div>
-
             </div>
-          </div>
 
-          {/* recherche film par auteur  */}
-          <div className={`${toggleSearchAuthor ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
-            <div className={`${toggleSearchAuthor ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
-              <div className='results_search'>
-                <h5 className='title_button_close_searchbar'>Résultat de la recherche
-                  <button className='button_close_results_searchbar' onClick={handleClickSearchCloseAuthor}>Close</button>
-                </h5>
-                <div className={`${toggleSearchAuthor ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
-                  {moviesByAuthor.map((m, i) => (
-                    <div className='card_movie_container ' key={i}>
+            {/* recherche film par auteur  */}
+            <div className={`${toggleSearchAuthor ? 'close_serach_movie' : 'close_serach_movie_transparent'}`}>
+              <div className={`${toggleSearchAuthor ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+                <div className='results_search'>
+                  <h5 className='title_button_close_searchbar'>Résultat de la recherche
+                    <button className='button_close_results_searchbar' onClick={handleClickSearchCloseAuthor}>Close</button>
+                  </h5>
+                  <div className={`${toggleSearchAuthor ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+                    {moviesByAuthor.map((m, i) => (
+                      <div className='card_movie_container ' key={i}>
 
 
-                      <div className="image ">
-                        <img className="image_database_acceuil" alt="B&M" src={process.env.PUBLIC_URL + '/images/black&Mortimer/' + m.picture} />
+                        <div className="image ">
+                          <img className="image_database_acceuil" alt="B&M" src={process.env.PUBLIC_URL + '/images/black&Mortimer/' + m.picture} />
+                        </div>
+
+                        <h4 className='bg-info'>{m.title}</h4>
+                        <p>{m.synopsis.substring(0, 489)}...</p>
+                        <button className="card_button_acceuil_details btn btn-primary ">
+                          Plus
+                        </button>
+
                       </div>
 
-                      <h4 className='bg-info'>{m.title}</h4>
-                      <p>{m.synopsis.substring(0, 489)}...</p>
-                      <button className="card_button_acceuil_details btn btn-primary ">
-                        Plus
-                      </button>
-
-                    </div>
-
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
 
+              </div>
             </div>
-          </div>
 
             {/* recherche film par categorie  */}
             <div className={`${toggleSearchCategory ? 'close_search_movie_By_Category' : 'close_search_movie_transparent_By_Category'}`}>
-            <div className={`${toggleSearchCategory ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
-              <div className='results_search'>
-                <h5 className='title_button_close_searchbar'>Résultat de la recherche
-                  <button className='button_close_results_searchbar' onClick={handleClickSearchCloseCategory}>Close</button>
-                </h5>
-                <div className={`${toggleSearchCategory ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
-                  {moviesByCategory.map((m, i) => (
-                    <div className='card_movie_container ' key={i}>
+              <div className={`${toggleSearchCategory ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+                <div className='results_search'>
+                  <h5 className='title_button_close_searchbar'>Résultat de la recherche
+                    <button className='button_close_results_searchbar' onClick={handleClickSearchCloseCategory}>Close</button>
+                  </h5>
+                  <div className={`${toggleSearchCategory ? 'result_serach_movie' : 'result_serach_movie_transparent'}`}>
+                    {moviesByCategory.map((m, i) => (
+                      <div className='card_movie_container ' key={i}>
 
 
-                      <div className="image ">
-                        <img className="image_database_acceuil" alt="B&M" src={process.env.PUBLIC_URL + '/images/black&Mortimer/' + m.picture} />
+                        <div className="image ">
+                          <img className="image_database_acceuil" alt="B&M" src={process.env.PUBLIC_URL + '/images/black&Mortimer/' + m.picture} />
+                        </div>
+
+                        <h4 className='bg-info'>{m.title}</h4>
+                        <p>{m.synopsis.substring(0, 489)}...</p>
+                        <button className="card_button_acceuil_details btn btn-primary ">
+                          Plus
+                        </button>
+
                       </div>
 
-                      <h4 className='bg-info'>{m.title}</h4>
-                      <p>{m.synopsis.substring(0, 489)}...</p>
-                      <button className="card_button_acceuil_details btn btn-primary ">
-                        Plus
-                      </button>
-
-                    </div>
-
-                  ))}
+                    ))}
+                  </div>
                 </div>
+
               </div>
-
             </div>
-          </div>
 
 
 
 
 
-          {/* <Routes>
+            {/* <Routes>
             <Route path="/" element={<Home theme={toggleThemeApp}/>} />
             <Route path="/acceuil" element={<Acceuil theme={toggleThemeApp}/>} />
             <Route path="/characters" element={<Characters theme={toggleThemeApp}/>} />
@@ -450,25 +466,31 @@ function App(props) {
           </Routes>
           </Router>
           <Footer/> */}
-          
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/acceuil" element={<Acceuil />} />
-            <Route path="/characters" element={<Characters />} />
-            <Route path="/authors" element={<Author />} />
-            <Route path="/favories" element={<Favories />} />
-            <Route path="/editmovie/:id" element={<EditMovie />} />
-            <Route path="/editcharacter/:id" element={<EditCharacter />} />
-            <Route path="/movie/:id" element={<MovieId />} />
-            <Route path="/addmovie" element={<AddMovie />} />
-            <Route path='/basket' element={<Basket /> } />
-            <Route path="/addcharacter" element={<AddCharacter />} />
-            <Route path="/character/:id" element={<CharacterById />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </Router>
-        <Footer />
+
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/acceuil" element={<Acceuil />} />
+              <Route element={<PrivateRoutes />}>
+                <Route path="/characters" element={<Characters />} />
+                <Route path="/authors" element={<Author />} />
+                <Route path="/favories" element={<Favories />} />
+              </Route>
+
+              <Route path="/editmovie/:id" element={<EditMovie />} />
+              <Route path="/editcharacter/:id" element={<EditCharacter />} />
+              <Route path="/movie/:id" element={<MovieId />} />
+              <Route path="/addmovie" element={<AddMovie />} />
+              <Route path='/basket' element={<Basket />} />
+              <Route path="/addcharacter" element={<AddCharacter />} />
+              <Route path="/character/:id" element={<CharacterById />} />
+
+
+            </Routes>
+          </Router>
+          <Footer />
+        {/* </UserContext.Provider> */}
       </div>
     </>
   );

@@ -6,26 +6,29 @@ import Carousel from 'react-bootstrap/Carousel';
 import Slider from "../../components/Caroussel/carrousel";
 import './pagehome.css'
 import { useContext } from 'react'
-import { ThemeContext } from '../../context/index';
-
-
+import { ThemeContext } from '../../context/themeContext';
+import { UserContext } from "../../context/userContext";
+// import { UserContext } from '../../App';
 
 const Home = (props) => {
-    const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
+    // const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
+    const { userParse, token } = useContext(UserContext);
+    console.log("🚀 ~ file: PageHome.js:16 ~ Home ~ token:", token)
+    console.log("🚀 ~ file: PageHome.js:17 ~ Home ~ userParse:", userParse)
 
-    console.log("🚀 ~ file: home.js:9 ~ Home ~ props:", props)
-    console.log("🚀 ~ file: home.js:9 ~ Home ~ props:", props.movies.movies)
-    console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
-    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
-    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
+    // console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
+    // console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
+    // console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
 
 
     
     return (
         <>
         <h2  class='title_page'>Page Home</h2>
+        {/* <p>User : {userParse}</p>
+        <p>token : {token}</p> */}
 
-        <Slider theme={themeApp}/>
+        {/* <Slider theme={themeApp}/> */}
 
       </>
 

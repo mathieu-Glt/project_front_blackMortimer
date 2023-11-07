@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { loadMovies } from '../../actions/movie/movieAction';
 import { loadCharacters } from '../../actions/character/characterActions';
 import { useContext } from 'react'
-import { ThemeContext } from '../../context/index';
+import { ThemeContext } from '../../context/themeContext';
 import { loadAuthors } from '../../actions/auteur/auteurActions';
 
 

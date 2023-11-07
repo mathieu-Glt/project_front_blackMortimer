@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import SearchByAuthor from '../searchByAuthor/searchByAuthor';
 import SearchByCategory from '../searchByCategory/searchByCategory';
 import { useContext } from 'react'
-import { ThemeContext } from '../../context/index';
+import { ThemeContext } from '../../context/themeContext';
 import LogoNavigation from '../LogoNavigation/logo';
 import { loadAuthorsByNameArtist } from '../../actions/author/authorActions';
 import React, { useEffect, useState } from 'react';
@@ -48,10 +48,10 @@ function Navigation(props) {
     const [toggleUserIcon, setToggleUserIcon] = useState(false)
     const { handleSubmitSearchMoviesByAuthor } = props
     const { handleSubmitSearchMoviesByCategory } = props
-    const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
-    console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
-    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
-    console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
+    // const { theme, toggleTheme, themeApp } = useContext(ThemeContext)
+    // console.log("🚀 ~ file: App.js:30 ~ App ~ toggleTheme:", toggleTheme)
+    // console.log("🚀 ~ file: footer.js:24 ~ Footer ~ theme:", theme)
+    // console.log("🚀 ~ file: footer.js:24 ~ Footer ~ themeAPP:", themeApp)
 
 
 
@@ -115,7 +115,8 @@ function Navigation(props) {
 
     return (
         <>
-            <Navbar expand="lg" className={`${themeApp ? 'bg-warning' : 'bg-danger'}`}>
+            {/* <Navbar expand="lg" className={`${themeApp ? 'bg-warning' : 'bg-danger'}`}> */}
+            <Navbar expand="lg" className="">
                 <Container>
                     <Navbar.Brand href="/"><LogoNavigation /></Navbar.Brand>
                     {toggleUserIcon ? <PersonIcon color='success' className='person_icon' /> : null}

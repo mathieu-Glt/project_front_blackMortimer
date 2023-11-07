@@ -31,6 +31,7 @@ export async function handleStorage() {
         return Promise.resolve(user);
     })
       .catch(err => {
+        console.log('Error error hndlestorage');
         return Promise.reject(err)
     })
 
