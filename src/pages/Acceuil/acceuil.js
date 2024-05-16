@@ -154,7 +154,7 @@ console.log("🚀 ~ file: acceuil.js:17 ~ Acceuil ~ props:", props)
 
             {/* <section className={`${themeApp ? 'card_movies_light d-flex flex-row flex-wrap justify-content-center p-4 pt-4' : 'card_movie_dark d-flex flex-row flex-wrap justify-content-center p-4 pt-4'}`}> */}
             <section>
-
+        {/* si admin */}
                 {isAdmin ? <Link to={`/addmovie`}>
                     <button className=" btn btn-primary ">
                         Ajouter un film
